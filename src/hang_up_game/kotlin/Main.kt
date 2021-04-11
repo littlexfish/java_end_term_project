@@ -32,7 +32,6 @@ fun checkPlay(f: Open) {
 
 fun firstPlay(f: Open, fc: FileChecker) {
 	try {
-		println("firstPlay")
 		fc.createFiles()
 	}
 	catch(e: IOException) {

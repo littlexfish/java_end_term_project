@@ -3,6 +3,7 @@ package hang_up_game.java.io;
 import com.google.gson.Gson;
 import com.google.gson.JsonStreamParser;
 import com.google.gson.stream.JsonWriter;
+import hang_up_game.java.game.Mineral;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -25,7 +26,6 @@ public class FileChecker {
 	 */
 	public boolean checkFiles() {
 		try {
-			System.out.println(setting.length());
 			if(setting.length() == 0) {
 				return false;
 			}
@@ -37,29 +37,18 @@ public class FileChecker {
 		return false;
 	}
 	
-//	@SuppressWarnings("StatementWithEmptyBody")
-//	public void createFilesAndOverride() throws IOException {
-//		while(!setting.delete());
-//		while(!map.delete());
-//		while(!miningData.delete());
-//		while(!shop.delete());
-//		while(!storageMineral.delete());
-//		while(!storageMachine.delete());
-//		while(!storagePeople.delete());
-//		while(!storage.delete());
-//		createFiles();
-//	}
-	
 	public void createFiles() throws IOException {
-		System.out.println("set data");
 		addJsonToFile("{\"play\":false,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0}}", setting);
 		addJsonToFile("[]", map);
 		addJsonToFile("[]", miningData);
 		addJsonToFile("{\"unlockItemType\":[],\"bluePrintId\":[]}", shop);
 		addJsonToFile("{\"people\":[],\"pickaxe\":[],\"bag\":[]}", storagePeople);
 		addJsonToFile("{\"engine\":[],\"head\":[],\"battery\":[],\"chest\":[],\"plugin\":[]}", storageMachine);
-		addJsonToFile("{\"space\":1000,\"copper\":0,\"iron\":0,\"silver\":0,\"aluminum\":0,\"gold\":0,\"crystal\":0}", storageMineral);
-		System.out.println("set successful");
+		StringBuilder sb = new StringBuilder(Mineral.values().length * 10);
+		for(Mineral m : Mineral.values()) {
+			sb.append(",\"").append(m.name()).append("\":0");
+		}
+		addJsonToFile("{\"space\":1000" + sb.toString() + "}", storageMineral);
 	}
 	
 	private void addJsonToFile(String json, File file) throws IOException {
@@ -68,6 +57,7 @@ public class FileChecker {
 		for(char c : to.toCharArray()) {
 			fos.write(c);
 		}
+		fos.close();
 	}
 	
 }

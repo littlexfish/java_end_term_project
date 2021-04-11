@@ -76,7 +76,7 @@ Future Function:
                 "chunkY": 0,
                 "blockInChunkX": 0,
                 "blockInChunkY": 0,
-                "miningMineral": 0,
+                "lastMineral": 0,
                 "parts": {
                     "engineId": 0,
                     "headId": 0,
@@ -160,12 +160,14 @@ Future Function:
 			}
 		資源
 			{
-				"space": 50000
+				"space": 50000,
+				"stone":0,
 				"copper": 20,
 				"iron": 10,
 				"silver": 30,
 				"aluminum": 16,
 				"gold": 6,
+				"diamond": 0,
 				"crystal": 1
 			}
 儲藏室
