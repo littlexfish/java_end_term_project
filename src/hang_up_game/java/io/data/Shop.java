@@ -16,7 +16,7 @@ public class Shop implements Saveable {
 	public Shop() throws URISyntaxException, FileNotFoundException {
 	}
 	
-	public int[] getUnlockItems() {
+	public synchronized int[] getUnlockItems() {
 		JsonArray ja = shopJson.get("unlockItemType").getAsJsonArray();
 		int size = ja.size();
 		int[] items = new int[size];
@@ -26,7 +26,7 @@ public class Shop implements Saveable {
 		return items;
 	}
 	
-	public int[] getBlueprints() {
+	public synchronized int[] getBlueprints() {
 		JsonArray ja = shopJson.get("bluePrintId").getAsJsonArray();
 		int size = ja.size();
 		int[] blueprints = new int[size];
@@ -40,7 +40,7 @@ public class Shop implements Saveable {
 	 * @param itemId - the id of item
 	 * @return true if add successfully
 	 */
-	public boolean addUnlockItem(int itemId) {
+	public synchronized boolean addUnlockItem(int itemId) {
 		JsonArray ja = shopJson.get("unlockItemType").getAsJsonArray();
 		boolean contain = ja.contains(new JsonPrimitive(itemId));
 		if(!contain) {
@@ -53,7 +53,7 @@ public class Shop implements Saveable {
 	 * @param blueprintId - the id of blueprint
 	 * @return true if add successfully
 	 */
-	public boolean addBlueprint(int blueprintId) {
+	public synchronized boolean addBlueprint(int blueprintId) {
 		JsonArray ja = shopJson.get("bluePrintId").getAsJsonArray();
 		boolean contain = ja.contains(new JsonPrimitive(blueprintId));
 		if(!contain) {

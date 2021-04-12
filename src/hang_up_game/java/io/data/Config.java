@@ -35,6 +35,9 @@ public class Config implements Saveable {
 		if(clazz == Integer.class) {
 			return (T)Integer.valueOf(je.getAsInt());
 		}
+		if(clazz == Long.class) {
+			return (T)Long.valueOf(je.getAsLong());
+		}
 		return null;
 	}
 	

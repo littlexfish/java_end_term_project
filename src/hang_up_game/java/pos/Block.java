@@ -8,12 +8,20 @@ public class Block {
 	private int lastMineral;
 	
 	public Block(Chunk c, int x, int y, int lastMineral) {
-		if(x < 1 || x > 9 || y < 0 || y > 9) throw new IllegalArgumentException("A block in chunk must in 0~9");
+		if(x < 0 || x > 9 || y < 0 || y > 9) throw new IllegalArgumentException("A block in chunk must in 0~9");
 		if(lastMineral < 0 || lastMineral > 5) throw new IllegalArgumentException("Mineral must in 0~5");
 		chunk = c;
 		blockInChunkX = x;
 		blockInChunkY = y;
 		this.lastMineral = lastMineral;
+	}
+	
+	public Block(Chunk c, int x, int y) {
+		this(c, x, y, 0);
+	}
+	
+	public Block() {
+		this(new Chunk(0, 0), 0, 0, 0);
 	}
 	
 	public void setMineral(int value) {

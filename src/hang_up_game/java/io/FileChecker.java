@@ -7,6 +7,12 @@ import hang_up_game.java.game.Mineral;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.spi.CharsetProvider;
+import java.util.Random;
 
 public class FileChecker {
 	
@@ -38,11 +44,16 @@ public class FileChecker {
 	}
 	
 	public void createFiles() throws IOException {
-		addJsonToFile("{\"play\":false,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0}}", setting);
+		Random seedRandom = new Random();
+		long mapSeed = seedRandom.nextLong();
+		long chestSeed = seedRandom.nextLong();
+		addJsonToFile("{\"play\":true,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0,\"mapSeed\":" + mapSeed + ",\"chestSeed\":" + chestSeed + "}}", setting);
 		addJsonToFile("[]", map);
 		addJsonToFile("[]", miningData);
 		addJsonToFile("{\"unlockItemType\":[],\"bluePrintId\":[]}", shop);
-		addJsonToFile("{\"people\":[],\"pickaxe\":[],\"bag\":[]}", storagePeople);
+		addJsonToFile("{\"people\":[{\"name\":\"新手\",\"id\":1,\"maxStamina\":500,\"lastStamina\":500,\"strong\":10,\"skillId\":0," +
+				"\"skillValue\": []}],\"pickaxe\":[{\"id\":1,\"name\":\"新手槁子\",\"level\":1,\"maxDamage\":500,\"damage\":0}]," +
+				"\"bag\":[{\"id\":1,\"name\":\"新手包包\",\"maxSpace\":20}]}", storagePeople);
 		addJsonToFile("{\"engine\":[],\"head\":[],\"battery\":[],\"chest\":[],\"plugin\":[]}", storageMachine);
 		StringBuilder sb = new StringBuilder(Mineral.values().length * 10);
 		for(Mineral m : Mineral.values()) {
@@ -52,6 +63,7 @@ public class FileChecker {
 	}
 	
 	private void addJsonToFile(String json, File file) throws IOException {
+		json = new String(StandardCharsets.UTF_8.encode(StandardCharsets.ISO_8859_1.decode(ByteBuffer.wrap(json.getBytes()))).array());
 		String to = new Gson().newBuilder().setPrettyPrinting().create().toJson(new JsonStreamParser(json).next());
 		FileOutputStream fos = new FileOutputStream(file);
 		for(char c : to.toCharArray()) {

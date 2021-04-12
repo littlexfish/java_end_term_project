@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
+import hang_up_game.java.io.data.storage.Machine;
+import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.pos.*;
 
 import java.io.File;
@@ -26,8 +28,6 @@ public class MiningData implements Saveable {
 			JsonObject jo = je.getAsJsonObject();
 			JsonObject part = jo.get("parts").getAsJsonObject();
 			data.add(new Machine(jo.get("machineId").getAsInt(),
-					new Block(new Chunk(jo.get("chunkX").getAsInt(), jo.get("chunkY").getAsInt()),
-							jo.get("blockInChunkX").getAsInt(), jo.get("blockInChunkX").getAsInt(), jo.get("lastMineral").getAsInt()),
 					new Machine.Parts(part.get("engineId").getAsInt(), part.get("headId").getAsInt(), part.get("batteryId").getAsInt(), part.get("chestId").getAsInt(), part.get("pluginId").getAsJsonArray())));
 			
 		}
@@ -37,14 +37,14 @@ public class MiningData implements Saveable {
 	 * @param id - the id of machine
 	 * @return machine that id, or null didn't find any
 	 */
-	public Machine getMachineFromId(int id) {
+	public synchronized Machine getMachineFromId(int id) {
 		for(Machine m : data) {
 			if(m.id == id) return m;
 		}
 		return null;
 	}
 	
-	public Machine releaseMachine(int id) {
+	public synchronized Machine releaseMachine(int id) {
 		Machine machine = null;
 		for(Machine m : data) {
 			if(m.id == id) {
@@ -58,7 +58,7 @@ public class MiningData implements Saveable {
 		return machine;
 	}
 	
-	public void addMachine(Machine m) {
+	public synchronized void addMachine(Machine m) {
 		if(getMachineFromId(m.id) != null) throw new IllegalStateException("machine is exist");
 		data.add(m);
 		miningDataJson.add(m.toJsonObject());
@@ -71,24 +71,35 @@ public class MiningData implements Saveable {
 	
 	public static class Machine {
 		
+		public static int getEmptyId() {
+			int nowId = 1;
+			while(true) {
+				boolean contain = false;
+				for(People.PickaxeData p : FileHolder.people.pickaxeData) {
+					if(p.id == nowId) {
+						contain = true;
+						break;
+					}
+				}
+				if(contain) {
+					nowId++;
+					continue;
+				}
+				return nowId;
+			}
+		}
+		
 		public final int id;
-		public final Block block;
 		public final Parts parts;
 		
-		public Machine(int i, Block b, Parts p) {
+		public Machine(int i, Parts p) {
 			id = i;
-			block = b;
 			parts = p;
 		}
 		
 		public JsonObject toJsonObject() {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("machineId", id);
-			jo.addProperty("chunkX", block.chunk.X);
-			jo.addProperty("chunkY", block.chunk.Y);
-			jo.addProperty("blockInChunkX", block.blockInChunkX);
-			jo.addProperty("blockInChunkY", block.blockInChunkY);
-			jo.addProperty("lastMineral", block.getLastMineral());
 			jo.add("parts", parts.toJsonObject());
 			return jo;
 		}

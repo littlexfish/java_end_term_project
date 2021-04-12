@@ -4,6 +4,9 @@ import java.awt.*;
 
 public class Constant {
     
+    public static final Image icon = Toolkit.getDefaultToolkit().createImage(Constant.class.getResource("/hang_up_game/files/img/icon.png"));
+    public static final String ApplicationName = "Miner";
+    
     public static Point getMiddleWindowPoint(int width, int height) {
         Point p = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         return new Point(p.x - width / 2, p.y - height / 2);

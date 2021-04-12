@@ -2,6 +2,13 @@
 Notice: 這裡會放所有有關期末報告專案的所有內容記錄，包含未來的功能、bug修復及更改項目等
 
 Future Function:
+技能
+關閉遊戲，全部運轉之挖礦機全部返回
+MiningData用來確認已被使用的零件
+
+
+
+架構:
 用JSON或自訂義資料樹儲存資料
 地圖
 	用數個種子碼跑出虛擬地圖
@@ -14,6 +21,16 @@ Future Function:
 		chest
 			seed / (chunkX / blockX, chunkY / blockY) 轉整數 -> 用箱子機率轉是否開到箱子
 			該區塊僅有固定數量之箱子
+	pickaxeDamage
+		highestLevelMineral - pickaxeLevel + mineralLevel = add damage
+	engineDamage
+		-1
+	headDamage
+		highestLevelMineral - pickaxeLevel + mineralLevel = add damage
+	battery
+		-10
+	stamina
+		-10
 	資料
 		map
 			有跑到該chunk才紀錄到檔案內
@@ -57,7 +74,9 @@ Future Function:
 			}
 			"gameData": {
 				"level": 1,
-				"exp": 50
+				"exp": 50,
+				"mapSeed": 0,
+				"chestSeed": 0
 			}
 		}
 	map
@@ -72,11 +91,6 @@ Future Function:
 		[
 			{
 				"machineId": 0,
-                "chunkX": 0,
-                "chunkY": 0,
-                "blockInChunkX": 0,
-                "blockInChunkY": 0,
-                "lastMineral": 0,
                 "parts": {
                     "engineId": 0,
                     "headId": 0,
@@ -231,6 +245,7 @@ Future Function:
 			顯示有受損的物品
 
 
+
 Bug(Add "-" that the bug has been fixed):
 
 
@@ -239,3 +254,5 @@ Change Log:
 2021/4/10
 	開始專案
 	研究整體架構
+2021/4/11
+	大致完成人工挖礦

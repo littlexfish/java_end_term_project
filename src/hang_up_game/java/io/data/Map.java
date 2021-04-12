@@ -20,10 +20,10 @@ public class Map implements Saveable {
 	public Map() throws URISyntaxException, FileNotFoundException {
 	}
 	
-	public int getLastChestCount(int chunkX, int chunkY) {
+	public synchronized int getLastChestCount(int chunkX, int chunkY) {
 		return getLastChestCount(new Chunk(chunkX, chunkY));
 	}
-	public int getLastChestCount(Chunk chunk) {
+	public synchronized int getLastChestCount(Chunk chunk) {
 		for(JsonElement je : mapJson) {
 			JsonObject jo = je.getAsJsonObject();
 			if(jo.get("chunkX").getAsInt() == chunk.X && jo.get("chunkY").getAsInt() == chunk.Y) {
@@ -33,7 +33,7 @@ public class Map implements Saveable {
 		return -1;
 	}
 	
-	public void setLastChestCount(Chunk chunk, int count) {
+	public synchronized void setLastChestCount(Chunk chunk, int count) {
 		for(JsonElement je : mapJson) {
 			JsonObject jo = je.getAsJsonObject();
 			if(jo.get("chunkX").getAsInt() == chunk.X && jo.get("chunkY").getAsInt() == chunk.Y) {
@@ -44,7 +44,7 @@ public class Map implements Saveable {
 		createNewMapData(chunk, count);
 	}
 	
-	private void createNewMapData(Chunk chunk, int count) {
+	private synchronized void createNewMapData(Chunk chunk, int count) {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("chunkX", chunk.X);
 		jo.addProperty("chunkY", chunk.Y);
