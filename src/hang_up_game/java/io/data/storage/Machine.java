@@ -378,6 +378,10 @@ public class Machine implements Saveable {
 			return jo;
 		}
 		
+		public String list() {
+			return "名字:" + name + "\n強度:" + strong + "\n毀損值:" + damage + "/" + maxDamage;
+		}
+		
 		@Override
 		public boolean equals(Object o) {
 			if(this == o) return true;
@@ -448,6 +452,10 @@ public class Machine implements Saveable {
 			return jo;
 		}
 		
+		public String list() {
+			return "名字:" + name + "\n挖掘等級:" + level + "\n毀損值:" + damage + "/" + maxDamage;
+		}
+		
 		@Override
 		public boolean equals(Object o) {
 			if(this == o) return true;
@@ -515,6 +523,10 @@ public class Machine implements Saveable {
 			return jo;
 		}
 		
+		public String list() {
+			return "名字:" + name + "\n電量:" + battery + "/" + maxBattery;
+		}
+		
 		@Override
 		public boolean equals(Object o) {
 			if(this == o) return true;
@@ -564,6 +576,10 @@ public class Machine implements Saveable {
 			jo.addProperty("name", name);
 			jo.addProperty("maxSpace", maxSpace);
 			return jo;
+		}
+		
+		public String list() {
+			return "名字:" + name + "\n空間:" + maxSpace;
 		}
 		
 		@Override

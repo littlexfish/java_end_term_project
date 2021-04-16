@@ -39,6 +39,7 @@ public class PeopleMining extends JDialog {
 	private Map<Mineral, Integer> mineral;
 	private Set<Item> items;
 	
+	private final JScrollPane scroll;
 	private final JTextPane console = new JTextPane();
 	private final StyledDocument styledDocument = console.getStyledDocument();
 	private final Style style = console.addStyle("console", null);
@@ -50,9 +51,10 @@ public class PeopleMining extends JDialog {
 		setBounds(Constant.getMiddleWindowRectangle(500, 500));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-		JScrollPane scroll = new JScrollPane();
+		scroll = new JScrollPane();
 		getContentPane().add(scroll, BorderLayout.CENTER);
 		
+		console.setEditable(false);
 		scroll.setViewportView(console);
 		
 		JPanel bottom = new JPanel(new GridLayout(1, 2, 5, 5));
@@ -69,10 +71,10 @@ public class PeopleMining extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				FileHolder.storage(mineral, items);
-				FileHolder.changeTools(owner, People.PeopleData.quickData(people, stamina), People.PickaxeData.quickData(pickaxe, damage));
-				mineral.clear();
-				items.clear();
+			FileHolder.storage(mineral, items);
+			FileHolder.changeTools(owner, People.PeopleData.quickData(people, stamina), People.PickaxeData.quickData(pickaxe, damage));
+			mineral.clear();
+			items.clear();
 			}
 		});
 		
@@ -85,6 +87,7 @@ public class PeopleMining extends JDialog {
 		StyleConstants.setForeground(style, c);
 		try {
 			styledDocument.insertString(styledDocument.getLength(), msg, style);
+			scroll.getViewport().setViewPosition(new Point(0, scroll.getVerticalScrollBar().getMaximum()));
 		}
 		catch(BadLocationException ignored) {}
 	}
@@ -159,6 +162,7 @@ public class PeopleMining extends JDialog {
 			int damage = Mineral.getHighestLevel() - pickaxe.level + m.level;
 			this.damage += damage;
 			this.stamina -= 10;
+			if(this.damage >= pickaxe.maxDamage) this.damage = pickaxe.maxDamage;
 			appendTextWithNewLine("你挖到了" + m.chinese, Get_Item);
 			mineral.put(m, mineral.getOrDefault(m, 0) + 1);
 			FileHolder.people.addPickaxe(People.PickaxeData.quickData(pickaxe, this.damage));
@@ -227,10 +231,12 @@ public class PeopleMining extends JDialog {
 		needLock.setEnabled(false);
 		new Thread(() -> {
 			long ft = System.currentTimeMillis();
-			//noinspection StatementWithEmptyBody
-			while((System.currentTimeMillis() - ft) < time);
+			while((System.currentTimeMillis() - ft) < time) {
+				needLock.setText(String.format("挖(%.2f)", (time - (System.currentTimeMillis() - ft)) / 1000f));
+			}
 			doMine(d, people, pickaxe, bag);
 			needLock.setEnabled(true);
+			needLock.setText("挖");
 		}).start();
 	}
 	

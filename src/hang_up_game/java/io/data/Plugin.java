@@ -15,13 +15,14 @@ public enum Plugin {
 		this.name = name;
 		
 	}
+	private static final EnumMap<Plugin, Integer> pluginMap;
 	static {
+		pluginMap = new EnumMap<>(Plugin.class);
 		Plugin[] ps = Plugin.values();
 		for(int i = 0;i < ps.length;i++) {
 			Plugin.pluginMap.put(ps[i], i);
 		}
 	}
-	private static final EnumMap<Plugin, Integer> pluginMap = new EnumMap<>(Plugin.class);
 	public static int getIdFromPlugin(Plugin p) {
 		return pluginMap.get(p);
 	}

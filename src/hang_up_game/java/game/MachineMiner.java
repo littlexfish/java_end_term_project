@@ -5,15 +5,15 @@ import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Plugin;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
-import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.Constant;
 
-import java.awt.*;
-import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-public class MachineMiner {
+public class MachineMiner implements Serializable {
+	
+	public static final long serialVersionUID = 14L;
 	
 	private static final Map<Integer, String> msgToPrint = new HashMap<>();
 	static {
@@ -30,11 +30,11 @@ public class MachineMiner {
 	private int headDamage;
 	private int battery;
 	
-	Machine.Engine engine;
-	Machine.Head head;
-	Machine.Battery machineBattery;
-	Machine.Chest chest;
-	Plugin[] plugins;
+	public Machine.Engine engine;
+	public Machine.Head head;
+	public Machine.Battery machineBattery;
+	public Machine.Chest chest;
+	public Plugin[] plugins;
 	
 	private Direct direct;
 	private int chunkX;
@@ -242,6 +242,14 @@ public class MachineMiner {
 		}
 	}
 	
+	public Map<Mineral, Integer> getMineral() {
+		return mineral;
+	}
+	
+	public Set<Item> getItems() {
+		return items;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if(this == o) return true;
@@ -252,6 +260,10 @@ public class MachineMiner {
 	@Override
 	public int hashCode() {
 		return id;
+	}
+	@Override
+	public String toString() {
+		return "" + id;
 	}
 	
 	private void sendNotice(String des) {
