@@ -36,6 +36,10 @@ public class Shop implements Saveable {
 		return blueprints;
 	}
 	
+	public synchronized int getMoney() {
+		return shopJson.get("money").getAsInt();
+	}
+	
 	/**
 	 * @param itemId - the id of item
 	 * @return true if add successfully
@@ -60,6 +64,14 @@ public class Shop implements Saveable {
 			ja.add(blueprintId);
 		}
 		return !contain;
+	}
+	
+	public synchronized void setMoney(int value) {
+		shopJson.addProperty("money", value);
+	}
+	
+	public synchronized void addMoney(int value) {
+		setMoney(getMoney() + value);
 	}
 	
 	@Override

@@ -44,8 +44,7 @@ public class MachineDetail extends JPanel {
 				parent.setPanel(new MachineGo(parent, this), "新增挖礦機");
 			}
 			catch(RuntimeException ex) {
-				WarningWindow ww = new WarningWindow("無法新增挖礦機", ex.getMessage(), WarningWindow.DialogType_Time, JFrame.DISPOSE_ON_CLOSE, 1000);
-				ww.setVisible(true);
+				new WarningWindow("無法新增挖礦機", ex.getMessage(), WarningWindow.DialogType_Time, JFrame.DISPOSE_ON_CLOSE, 1000).setVisible(true);
 			}
 		});
 		down.add(go);

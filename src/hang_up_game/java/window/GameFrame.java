@@ -62,6 +62,7 @@ public class GameFrame extends JFrame {
 		keyList.removeLast();
 		PanelCache pc = panelList.get(keyList.getLast());
 		setContentPane(pc.pane);
+		setTitle(keyList.getLast());
 		if(pc.width > 0 && pc.height > 0) {
 			setSize(pc.width, pc.height);
 		}

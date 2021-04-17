@@ -10,7 +10,7 @@ public class GameExitDialog extends JDialog {
 		setTitle("離開");
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setBounds(Constant.getMiddleWindowRectangle(250, 100));
-		
+		getContentPane().setLayout(new BorderLayout(5, 5));
 		
 		JLabel msg = new JLabel("確定要離開了嗎?");
 		msg.setHorizontalAlignment(JLabel.CENTER);

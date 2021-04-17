@@ -2,6 +2,7 @@ package hang_up_game.java.window;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class WarningWindow extends JDialog {
 	
@@ -34,7 +35,7 @@ public class WarningWindow extends JDialog {
 		getContentPane().add(Msg, BorderLayout.CENTER);
 		
 		if((dialogType & DialogType_Time) == DialogType_Time) {
-			setBounds(Constant.getMiddleWindowRectangle(msg.length() * 10, 50));
+			setBounds(Constant.getMiddleWindowRectangle(msg.length() * 20, 50));
 			setUndecorated(true);
 			isTimeType = true;
 			if(time <= 0) {

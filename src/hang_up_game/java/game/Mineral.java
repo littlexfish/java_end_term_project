@@ -2,28 +2,30 @@ package hang_up_game.java.game;
 
 public enum Mineral {
 	
-	Stone(500, "石頭", 1, 10),
-	Copper(50, "銅", 2, 20),
-	Iron(20, "鐵", 3, 20),
-	Silver(10, "銀", 3, 10),
-	Aluminum(10, "鋁", 3, 15),
-	Gold(5, "金", 4, 5),
-	Diamond(2, "鑽石", 5, 30),
-	Crystal(1, "水晶", 6, 50);
+	Stone(500, "石頭", 1, 10, 1),
+	Copper(50, "銅", 2, 20, 5),
+	Iron(20, "鐵", 3, 20, 10),
+	Silver(10, "銀", 3, 10, 10),
+	Aluminum(10, "鋁", 3, 15, 15),
+	Gold(5, "金", 4, 5, 30),
+	Diamond(2, "鑽石", 5, 30, 50),
+	Crystal(1, "水晶", 6, 50, 100);
 	
 	public final String chinese;
 	int weight;
 	public final int level;
 	public final int hard;
-	Mineral(int w, String trans, int l, int h) {
+	public final int price;
+	Mineral(int w, String trans, int l, int h, int p) {
 		weight = w;
 		chinese = trans;
 		level = l;
 		hard = h;
+		price = p;
 	}
 	
 	Mineral(String trans) {
-		this(1, trans, 1, 1);
+		this(1, trans, 1, 1, 1);
 	}
 	
 	public static int getHighestLevel() {

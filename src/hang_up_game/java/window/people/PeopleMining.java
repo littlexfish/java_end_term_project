@@ -51,6 +51,8 @@ public class PeopleMining extends JDialog {
 		setBounds(Constant.getMiddleWindowRectangle(500, 500));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
+		getContentPane().setLayout(new BorderLayout(5, 5));
+		
 		scroll = new JScrollPane();
 		getContentPane().add(scroll, BorderLayout.CENTER);
 		

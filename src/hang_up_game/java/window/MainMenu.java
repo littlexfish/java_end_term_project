@@ -1,5 +1,8 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.window.crafting.Crafting;
+import hang_up_game.java.window.shop.Shop;
+
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
@@ -31,17 +34,17 @@ public class MainMenu extends JPanel {
 		JButton shop = new JButton("商店");
 		shop.setFocusable(false);
 		shop.addActionListener(e -> {
-		
+			frame.setPanel(new Shop(frame), "商店");
 		});
 		centerButton.add(shop);
 		
 		JLabel centerPadding2 = new JLabel();
 		centerButton.add(centerPadding2);
 		
-		JButton crafting = new JButton("製作");
+		JButton crafting = new JButton("工作坊");
 		crafting.setFocusable(false);
 		crafting.addActionListener(e -> {
-		
+			frame.setPanel(new Crafting(), "工作坊");
 		});
 		centerButton.add(crafting);
 		

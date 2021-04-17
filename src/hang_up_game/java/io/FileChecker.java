@@ -50,7 +50,7 @@ public class FileChecker {
 		addJsonToFile("{\"play\":true,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0,\"mapSeed\":" + mapSeed + ",\"chestSeed\":" + chestSeed + "}}", setting);
 		addJsonToFile("[]", map);
 		addJsonToFile("[]", miningData);
-		addJsonToFile("{\"unlockItemType\":[],\"bluePrintId\":[]}", shop);
+		addJsonToFile("{\"money\":0,\"unlockItemType\":[],\"bluePrintId\":[0,6,12,18,24,30]}", shop);
 		addJsonToFile("{\"people\":[{\"name\":\"新手\",\"id\":1,\"maxStamina\":500,\"lastStamina\":500,\"strong\":10,\"skillId\":0," +
 				"\"skillValue\": []}],\"pickaxe\":[{\"id\":1,\"name\":\"新手槁子\",\"level\":1,\"maxDamage\":500,\"damage\":0}]," +
 				"\"bag\":[{\"id\":1,\"name\":\"新手包包\",\"maxSpace\":20}]}", storagePeople);
