@@ -46,7 +46,7 @@ public class MachineMiner implements Serializable {
 	private Map<Mineral, Integer> mineral;
 	private Set<Item> items;
 	
-	public MachineMiner(Machine.Engine e, Machine.Head h, Machine.Battery b, Machine.Chest c, int items, Plugin ...p) {
+	public MachineMiner(Machine.Engine e, Machine.Head h, Machine.Battery b, Machine.Chest c, Plugin ...p) {
 		int[] pi = new int[p.length];
 		for(int i = 0;i < p.length;i++) {
 			pi[i] = Plugin.getIdFromPlugin(p[i]);

@@ -4,6 +4,7 @@ package hang_up_game.kotlin
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel
 import hang_up_game.java.io.FileChecker
 import hang_up_game.java.window.GameFrame
+import hang_up_game.java.window.MainMenu
 import hang_up_game.java.window.Open
 import hang_up_game.java.window.people.PeopleDetail
 import java.io.IOException
@@ -45,6 +46,7 @@ fun firstPlay(f: Open, fc: FileChecker) {
 fun loadGame(f: Open) {
 	if(f.isVisible) f.dispose()
 	val gf = GameFrame()
-	gf.setPanel(PeopleDetail(gf), "挖礦準備", 400, 300)
+//	gf.setPanel(PeopleDetail(gf), "挖礦準備", 400, 300)
+	gf.setPanel(MainMenu(gf), "主頁面", 400, 300)
 	gf.isVisible = true
 }

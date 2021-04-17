@@ -71,6 +71,7 @@ public class PeopleDetail extends JPanel {
 		//button
 		
 		JButton confirm = new JButton("開始挖礦");
+		confirm.setFocusable(false);
 		confirm.addActionListener(e -> openPeopleMining());
 		add(confirm, BorderLayout.SOUTH);
 		

@@ -64,6 +64,10 @@ public class MiningData implements Saveable {
 		miningDataJson.add(m.toJsonObject());
 	}
 	
+	public synchronized List<Machine> getData() {
+		return data;
+	}
+	
 	@Override
 	public void save() throws IOException {
 		Saveable.jsonSaver(miningDataJson.toString(), miningData);

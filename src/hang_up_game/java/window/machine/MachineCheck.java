@@ -8,8 +8,6 @@ import hang_up_game.java.io.data.storage.Item;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;

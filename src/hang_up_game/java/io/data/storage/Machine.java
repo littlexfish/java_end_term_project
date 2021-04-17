@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.io.data.FileHolder;
+import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Plugin;
 import hang_up_game.java.io.data.Saveable;
 
@@ -13,9 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Machine implements Saveable {
 	
@@ -206,6 +205,83 @@ public class Machine implements Saveable {
 		Plugin p = new Plugin(id, hang_up_game.java.io.data.Plugin.getPluginFromId(id).name(), count);
 		plugin.add(p);
 		machineJson.get("plugin").getAsJsonArray().add(p.toJsonObject());
+	}
+	
+	public synchronized List<Engine> getUsableEngine() {
+		LinkedList<Engine> es = new LinkedList<>();
+		List<MiningData.Machine> ma = FileHolder.miningData.getData();
+		Engine:
+		for(Engine e : engines) {
+			for(MiningData.Machine m : ma) {
+				if(m.parts.engineId == e.id) {
+					continue Engine;
+				}
+			}
+			es.add(e);
+		}
+		return es;
+	}
+	public synchronized List<Head> getUsableHead() {
+		LinkedList<Head> hs = new LinkedList<>();
+		List<MiningData.Machine> ma = FileHolder.miningData.getData();
+		Head:
+		for(Head h : heads) {
+			for(MiningData.Machine m : ma) {
+				if(m.parts.headId == h.id) {
+					continue Head;
+				}
+			}
+			hs.add(h);
+		}
+		return hs;
+	}
+	public synchronized List<Battery> getUsableBattery() {
+		LinkedList<Battery> bs = new LinkedList<>();
+		List<MiningData.Machine> ma = FileHolder.miningData.getData();
+		Battery:
+		for(Battery b : batteries) {
+			for(MiningData.Machine m : ma) {
+				if(m.parts.batteryId == b.id) {
+					continue Battery;
+				}
+			}
+			bs.add(b);
+		}
+		return bs;
+	}
+	public synchronized List<Chest> getUsableChest() {
+		LinkedList<Chest> cs = new LinkedList<>();
+		List<MiningData.Machine> ma = FileHolder.miningData.getData();
+		Chest:
+		for(Chest c : chests) {
+			for(MiningData.Machine m : ma) {
+				if(m.parts.batteryId == c.id) {
+					continue Chest;
+				}
+			}
+			cs.add(c);
+		}
+		return cs;
+	}
+	public synchronized List<hang_up_game.java.io.data.Plugin> getUsablePlugin() {
+		Map<hang_up_game.java.io.data.Plugin, Integer> plugins = new EnumMap<>(hang_up_game.java.io.data.Plugin.class);
+		List<MiningData.Machine> ma = FileHolder.miningData.getData();
+		for(MiningData.Machine m : ma) {
+			int[] ps = m.parts.getPluginIds();
+			if(ps.length <= 0) {
+				continue;
+			}
+			for(int p : ps) {
+				plugins.put(hang_up_game.java.io.data.Plugin.getPluginFromId(p), plugins.getOrDefault(hang_up_game.java.io.data.Plugin.getPluginFromId(p), plugin.get(plugin.indexOf(Plugin.getCompareInstance(p))).count - 1));
+			}
+		}
+		LinkedList<hang_up_game.java.io.data.Plugin> ps = new LinkedList<>();
+		for(hang_up_game.java.io.data.Plugin pl : plugins.keySet()) {
+			if(plugins.get(pl) > 0) {
+				ps.add(pl);
+			}
+		}
+		return ps;
 	}
 	
 	public static Engine getRandomEngine(int minStrong, int maxStrong) {
@@ -553,6 +629,7 @@ public class Machine implements Saveable {
 				for(Machine.Chest p : FileHolder.machine.chests) {
 					if(p.id == nowId) {
 						contain = true;
+						break;
 					}
 				}
 				if(contain) {
@@ -600,6 +677,10 @@ public class Machine implements Saveable {
 		}
 	}
 	public static class Plugin extends Item {
+		
+		public static Plugin getCompareInstance(int id) {
+			return new Plugin(id, "", 0);
+		}
 		
 		private int count;
 		

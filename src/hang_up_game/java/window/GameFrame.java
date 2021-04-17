@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class GameFrame extends JFrame {
 	
-	public LinkedHashMap<String, JPanel> panelList;
+	public LinkedHashMap<String, PanelCache> panelList;
 	public LinkedList<String> keyList;
 	
 	public GameFrame() {
@@ -27,7 +27,7 @@ public class GameFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if(panelList.size() > 1) { // not main menu
+				if(keyList.size() > 1) { // not main menu
 					goBack();
 				}
 				else { // is main menu, check close game or not
@@ -39,22 +39,48 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void setPanel(JPanel p, String title, int width, int height) {
-		setBounds(Constant.getMiddleWindowRectangle(width, height));
 		setTitle(title);
 		setContentPane(p);
-		panelList.put(title, p);
+		pack();
+		setBounds(Constant.getMiddleWindowRectangle(width, height));
+		panelList.put(title, new PanelCache(p, width, height));
+		keyList.add(title);
+	}
+	
+	public void setPanel(JPanel p, String title) {
+		setTitle(title);
+		setContentPane(p);
+		int width = getWidth(), height = getHeight();
+		pack();
+		setSize(width, height);
+		panelList.put(title, new PanelCache(p, 0, 0));
 		keyList.add(title);
 	}
 	
 	public void goBack() {
 		panelList.remove(getTitle());
 		keyList.removeLast();
-		setContentPane(panelList.get(keyList.getLast()));
+		PanelCache pc = panelList.get(keyList.getLast());
+		setContentPane(pc.pane);
+		if(pc.width > 0 && pc.height > 0) {
+			setSize(pc.width, pc.height);
+		}
 	}
 	
 	public void onExit() {
 		GameExitDialog ged = new GameExitDialog(this);
 		ged.setVisible(true);
+	}
+	
+	static class PanelCache {
+		public final JPanel pane;
+		public final int width;
+		public final int height;
+		public PanelCache(JPanel panel, int w, int h) {
+			pane = panel;
+			width = w;
+			height = h;
+		}
 	}
 	
 }
