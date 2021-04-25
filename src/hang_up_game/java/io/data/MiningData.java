@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
-import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.People;
-import hang_up_game.java.pos.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +13,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class MiningData implements Saveable {
 	
@@ -45,13 +42,7 @@ public class MiningData implements Saveable {
 	}
 	
 	public synchronized Machine releaseMachine(int id) {
-		Machine machine = null;
-		for(Machine m : data) {
-			if(m.id == id) {
-				machine = m;
-				break;
-			}
-		}
+		Machine machine = getMachineFromId(id);
 		if(machine != null) {
 			data.remove(machine);
 		}

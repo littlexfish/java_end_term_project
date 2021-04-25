@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.io.data.FileHolder;
+import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Saveable;
 
 import java.io.File;
@@ -12,7 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("unused")
@@ -131,6 +134,18 @@ public class People implements Saveable {
 		}
 	}
 	
+	public void removePickaxe(int pickaxeId) {
+		JsonArray ja = peopleJson.get("pickaxe").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == pickaxeId) {
+				pickaxeData.remove(i);
+				ja.remove(i);
+				break;
+			}
+		}
+	}
+	
 	public void addBag(BagData bd) {
 		if(getBagFromId(bd.id) != null) {
 			setBag(bd);
@@ -150,6 +165,18 @@ public class People implements Saveable {
 				bagData.add(bd);
 				ja.remove(i);
 				ja.add(bd.toJsonObject());
+			}
+		}
+	}
+	
+	public void removeBag(int bagId) {
+		JsonArray ja = peopleJson.get("bag").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == bagId) {
+				pickaxeData.remove(i);
+				ja.remove(i);
+				break;
 			}
 		}
 	}
@@ -206,6 +233,13 @@ public class People implements Saveable {
 		else if(space < 5000) name = "大師包包";
 		else name = "究極包包";
 		return new BagData(BagData.getEmptyId(), name, space);
+	}
+	
+	public synchronized ArrayList<Item> getAllData() {
+		ArrayList<Item> items = new ArrayList<>();
+		items.addAll(pickaxeData);
+		items.addAll(bagData);
+		return items;
 	}
 	
 	@Override

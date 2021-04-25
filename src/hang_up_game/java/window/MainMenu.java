@@ -1,10 +1,10 @@
 package hang_up_game.java.window;
 
 import hang_up_game.java.window.crafting.Crafting;
+import hang_up_game.java.window.shop.Buy;
 import hang_up_game.java.window.shop.Shop;
 
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 
 public class MainMenu extends JPanel {
@@ -44,7 +44,7 @@ public class MainMenu extends JPanel {
 		JButton crafting = new JButton("工作坊");
 		crafting.setFocusable(false);
 		crafting.addActionListener(e -> {
-			frame.setPanel(new Crafting(), "工作坊");
+			frame.setPanel(new Crafting(frame), "工作坊");
 		});
 		centerButton.add(crafting);
 		

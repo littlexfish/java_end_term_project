@@ -128,6 +128,18 @@ public class Machine implements Saveable {
 		}
 	}
 	
+	public synchronized void removeEngine(int engineId) {
+		JsonArray ja = machineJson.get("engine").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == engineId) {
+				engines.remove(i);
+				ja.remove(i);
+				break;
+			}
+		}
+	}
+	
 	public synchronized void addHead(Head h) {
 		if(getHeadFromId(h.id) != null) {
 			setHead(h);
@@ -146,6 +158,18 @@ public class Machine implements Saveable {
 				heads.add(h);
 				ja.remove(i);
 				ja.add(h.toJsonObject());
+				break;
+			}
+		}
+	}
+	
+	public synchronized void removeHead(int headId) {
+		JsonArray ja = machineJson.get("head").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == headId) {
+				heads.remove(i);
+				ja.remove(i);
 				break;
 			}
 		}
@@ -174,10 +198,51 @@ public class Machine implements Saveable {
 		}
 	}
 	
+	public synchronized void removeBattery(int batteryId) {
+		JsonArray ja = machineJson.get("battery").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == batteryId) {
+				batteries.remove(i);
+				ja.remove(i);
+				break;
+			}
+		}
+	}
+	
 	public synchronized void addChest(Chest c) {
-		if(getChestFromId(c.id) != null) throw new IllegalStateException("chest exist");
+		if(getChestFromId(c.id) != null) {
+			setChest(c);
+			return;
+		}
 		chests.add(c);
 		machineJson.get("chest").getAsJsonArray().add(c.toJsonObject());
+	}
+	
+	public synchronized void setChest(Chest c) {
+		JsonArray ja = machineJson.get("chest").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == c.id) {
+				chests.remove(i);
+				chests.add(c);
+				ja.remove(i);
+				ja.add(c.toJsonObject());
+				break;
+			}
+		}
+	}
+	
+	public synchronized void removeChest(int chestId) {
+		JsonArray ja = machineJson.get("chest").getAsJsonArray();
+		for(int i = 0;i < ja.size();i++) {
+			JsonObject jo = ja.get(i).getAsJsonObject();
+			if(jo.get("id").getAsInt() == chestId) {
+				chests.remove(i);
+				ja.remove(i);
+				break;
+			}
+		}
 	}
 	
 	public synchronized void setPluginCount(int id, int count) {
@@ -205,6 +270,57 @@ public class Machine implements Saveable {
 		Plugin p = new Plugin(id, hang_up_game.java.io.data.Plugin.getPluginFromId(id).name(), count);
 		plugin.add(p);
 		machineJson.get("plugin").getAsJsonArray().add(p.toJsonObject());
+	}
+	
+	public synchronized ArrayList<Item> getAllPart() {
+		List<MiningData.Machine> data = FileHolder.miningData.getData();
+		ArrayList<Item> itemsNotOnline = new ArrayList<>();
+		ES:
+		for(Engine e : engines) {
+			for(MiningData.Machine datum : data) {
+				if(e.id == datum.parts.engineId) {
+					continue ES;
+				}
+			}
+			itemsNotOnline.add(e);
+		}
+		HS:
+		for(Head h : heads) {
+			for(MiningData.Machine datum : data) {
+				if(h.id == datum.parts.headId) {
+					continue HS;
+				}
+			}
+			itemsNotOnline.add(h);
+		}
+		BS:
+		for(Battery b : batteries) {
+			for(MiningData.Machine datum : data) {
+				if(b.id == datum.parts.batteryId) {
+					continue BS;
+				}
+			}
+			itemsNotOnline.add(b);
+		}
+		CS:
+		for(Chest c : chests) {
+			for(MiningData.Machine datum : data) {
+				if(c.id == datum.parts.chestId) {
+					continue CS;
+				}
+			}
+			itemsNotOnline.add(c);
+		}
+		ArrayList<Plugin> newPlugin = new ArrayList<>(plugin);
+		for(MiningData.Machine datum : data) {
+			int[] ps = datum.parts.getPluginIds();
+			for(int p : ps) {
+				int index = plugin.indexOf(Plugin.getCompareInstance(p));
+				newPlugin.get(index).setCount(newPlugin.get(index).getCount() - 1);
+			}
+		}
+		itemsNotOnline.addAll(newPlugin);
+		return itemsNotOnline;
 	}
 	
 	public synchronized List<Engine> getUsableEngine() {

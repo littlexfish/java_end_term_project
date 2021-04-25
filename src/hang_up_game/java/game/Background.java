@@ -1,5 +1,6 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.Minimize;
 
 import java.awt.*;
@@ -50,6 +51,7 @@ public class Background {
 	public static void returnMachineMiner(MachineMiner mm) {
 		synchronized(machineLock) {
 			machines.remove(mm);
+			FileHolder.miningData.releaseMachine(mm.getId());
 		}
 	}
 	public static void throwMsg(String title, String msg) {
@@ -63,5 +65,6 @@ public class Background {
 	public static Set<MachineMiner> getAllMinerOnline() {
 		return machines.keySet();
 	}
-	
+	public static void makeSureBackground() {
+	}
 }

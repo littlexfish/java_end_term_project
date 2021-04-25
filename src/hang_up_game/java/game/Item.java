@@ -1,5 +1,7 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.data.FileHolder;
+
 public enum Item {
 	//pickaxe extra:level
 	NewlyPickaxe("新手稿子", 5, 100, 500, 1),
@@ -95,6 +97,27 @@ public enum Item {
 	
 	public static Item getItemFromId(int id){
 		return Item.values()[id];
+	}
+	
+	public static Item getItemFromName(String name) {
+		Item[] items = Item.values();
+		for(Item item : items) {
+			if(name.equals(item.name)) return item;
+		}
+		return null;
+	}
+	
+	public static int getIdFromItem(Item item) {
+		Item[] is = Item.values();
+		for(int i = 0;i < is.length;i++) {
+			if(is[i] == item) return i;
+		}
+		return -1;
+	}
+	
+	public static int getRandomItemFromUnlock() {
+		int[] unlock = FileHolder.shop.getBlueprints();
+		return unlock[(int)(Math.random() * unlock.length)];
 	}
 	
 }

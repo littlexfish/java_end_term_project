@@ -1,29 +1,45 @@
 package hang_up_game.java.window.shop;
 
 import hang_up_game.java.window.GameFrame;
+import hang_up_game.java.window.machine.MachineDetail;
+import hang_up_game.java.window.people.PeopleDetail;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Shop extends JPanel {
 	
-	private GameFrame frame;
 	
-	public Shop(GameFrame gf) {
+	private final GameFrame frame;
+	
+	public Shop(GameFrame f) {
+		frame = f;
 		
-		frame = gf;
+		JPanel centerButton = new JPanel(new GridLayout(7, 1, 5, 5));
+		centerButton.setPreferredSize(new Dimension(300, 200));
+		add(centerButton, BorderLayout.CENTER);
 		
-		setLayout(new BorderLayout(5, 5));
+		JLabel upPadding = new JLabel();
+		centerButton.add(upPadding);
 		
-		JTabbedPane tabPanel = new JTabbedPane();
-		add(tabPanel);
+		JButton buy = new JButton("購買");
+		buy.setFocusable(false);
+		buy.addActionListener(e -> {
+			frame.setPanel(new Buy(frame), "購買");
+		});
+		centerButton.add(buy);
 		
-		ItemPane ip = new ItemPane(frame);
-		tabPanel.addTab("物品", null, ip, "這裡會販售已解鎖的工具");
+		JLabel centerPadding1 = new JLabel();
+		centerButton.add(centerPadding1);
 		
-		BlueprintPane bp = new BlueprintPane(frame);
-		tabPanel.addTab("藍圖", null, bp, "這裡會販售可解鎖的藍圖");
+		JButton sell = new JButton("販賣");
+		sell.setFocusable(false);
+		sell.addActionListener(e -> {
+			frame.setPanel(new Sell(frame), "販賣");
+		});
+		centerButton.add(sell);
 		
 	}
-
+	
+	
 }

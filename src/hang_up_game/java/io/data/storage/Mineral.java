@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.EnumMap;
 
 public class Mineral implements Saveable {
 	
@@ -23,6 +24,14 @@ public class Mineral implements Saveable {
 	
 	public int getMineral(hang_up_game.java.game.Mineral m) {
 		return mineralJson.get(m.name()).getAsInt();
+	}
+	
+	public EnumMap<hang_up_game.java.game.Mineral, Integer> getAllMineral() {
+		EnumMap<hang_up_game.java.game.Mineral, Integer> minerals = new EnumMap<>(hang_up_game.java.game.Mineral.class);
+		for(hang_up_game.java.game.Mineral m : hang_up_game.java.game.Mineral.values()) {
+			minerals.put(m, getMineral(m));
+		}
+		return minerals;
 	}
 	
 	public void setSpace(int value) {

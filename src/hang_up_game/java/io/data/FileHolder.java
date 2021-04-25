@@ -1,5 +1,7 @@
 package hang_up_game.java.io.data;
 
+import hang_up_game.java.game.Blueprint;
+import hang_up_game.java.game.Blueprints;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.Mineral;
@@ -11,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class FileHolder {
@@ -50,6 +53,48 @@ public class FileHolder {
 		for(Saveable s : saver) {
 			s.save();
 		}
+	}
+	
+	public static ArrayList<Item> getAllStorage() {
+		ArrayList<Item> items = new ArrayList<>();
+		items.addAll(people.getAllData());
+		items.addAll(machine.getAllPart());
+		
+		return items;
+	}
+	
+	public static ArrayList<Item> getNeedFix() {
+		LinkedList<Item> all = new LinkedList<>(getAllStorage());
+		ArrayList<Item> toReturn = new ArrayList<>();
+		for(Item item : all) {
+			if(item instanceof People.BagData) continue;
+			if(item instanceof Machine.Chest) continue;
+			if(item instanceof Machine.Battery) continue;
+			if(item instanceof Machine.Plugin) continue;
+			if(item instanceof People.PickaxeData) {
+				People.PickaxeData p = (People.PickaxeData)item;
+				if(p.damage <= 0) continue;
+			}
+			if(item instanceof Machine.Engine) {
+				Machine.Engine e = (Machine.Engine)item;
+				if(e.getDamage() <= 0) continue;
+			}
+			if(item instanceof Machine.Head) {
+				Machine.Head h = (Machine.Head)item;
+				if(h.getDamage() <= 0) continue;
+			}
+			toReturn.add(item);
+		}
+		return toReturn;
+	}
+	
+	public static ArrayList<Blueprint> getBlueprintUnlock() {
+		int[] blue = shop.getBlueprints();
+		ArrayList<Blueprint> blueprints = new ArrayList<>(blue.length);
+		for(int i : blue) {
+			blueprints.add(Blueprints.blueprints.get(i));
+		}
+		return blueprints;
 	}
 	
 	public static void storage(java.util.Map<hang_up_game.java.game.Mineral, Integer> mineralWithAmount, Set<Item> items) {
@@ -108,10 +153,6 @@ public class FileHolder {
 		pd.pickaxeList.setSelectedIndex(pickInd);
 		pd.peopleLabel.setText(pd.toHtml(pd.peopleList.getSelectedValue().list()));
 		pd.pickaxeLabel.setText(pd.toHtml(pd.pickaxeList.getSelectedValue().list()));
-	}
-	
-	public static void changeMachine(MiningData.Machine m, Block block, Machine.Engine e, Machine.Head h, Machine.Battery b, Machine.Chest c) {
-	
 	}
 	
 }

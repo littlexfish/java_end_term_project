@@ -27,13 +27,13 @@ public class ItemPane extends JPanel {
 		ItemHolder[] item = new ItemHolder[9];
 		for(int i = 0;i < 9;i++) {
 			int finalI = i;
-			int id = r.nextInt(Item.values().length);//TODO: make it use unlock
+			int id = Item.getRandomItemFromUnlock();
 			item[i] = new ItemHolder(Item.getItemFromId(id));
 			ids[i] = id;
 			item[i].setFocusable(false);
 			item[i].addActionListener(e -> {
 				int money = FileHolder.shop.getMoney();
-				int price = item[finalI].getItem().price;
+				int price = item[finalI].getItem().getBuyPrice();
 				if(money < price) {
 					new WarningWindow("", "金額不足", WarningWindow.DialogType_Time, JDialog.DISPOSE_ON_CLOSE, 3000).setVisible(true);
 					return;

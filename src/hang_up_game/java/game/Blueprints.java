@@ -1,7 +1,6 @@
 package hang_up_game.java.game;
 
 import hang_up_game.java.io.data.FileHolder;
-import hang_up_game.java.io.data.Shop;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -68,6 +67,14 @@ public class Blueprints {
 			bs.add(blueprints.get(i));
 		}
 		return bs;
+	}
+	
+	public static Blueprint findBluePrintFromName(String name) {
+		Item i = Item.getItemFromName(name);
+		for(Blueprint b : blueprints) {
+			if(b.id == Item.getIdFromItem(i)) return b;
+		}
+		return null;
 	}
 	
 }

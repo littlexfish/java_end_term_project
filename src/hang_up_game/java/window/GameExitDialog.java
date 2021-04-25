@@ -1,7 +1,10 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.io.data.FileHolder;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GameExitDialog extends JDialog {
 	
@@ -36,6 +39,12 @@ public class GameExitDialog extends JDialog {
 	}
 	
 	private void saveAllFile() {
+		try {
+			FileHolder.saveFile();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
 		System.exit(0);
 	}
 	

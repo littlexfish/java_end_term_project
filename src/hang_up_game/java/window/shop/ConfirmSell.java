@@ -1,22 +1,20 @@
 package hang_up_game.java.window.shop;
 
-import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.Constant;
-import hang_up_game.java.window.WarningWindow;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ConfirmDialog extends JDialog {
+public class ConfirmSell extends JDialog {
 	
 	private int status = -1;
 	
-	public ConfirmDialog(JFrame owner, int price) {
+	public ConfirmSell(JFrame owner, int price) {
 		super(owner, true);
 		setBounds(Constant.getMiddleWindowRectangle(100, 100));
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		
-		JLabel msg = new JLabel("<html>確定要購買這些嗎?<br>金額:" + price + "</html>");
+		JLabel msg = new JLabel("<html>確定要販賣這些嗎?<br>金額:" + price + "</html>");
 		msg.setHorizontalAlignment(JLabel.CENTER);
 		getContentPane().add(msg, BorderLayout.CENTER);
 		
@@ -35,6 +33,7 @@ public class ConfirmDialog extends JDialog {
 		confirm.setFocusable(false);
 		confirm.addActionListener(e -> {
 			status = 1;
+			dispose();
 		});
 		button.add(confirm);
 	}
@@ -44,7 +43,7 @@ public class ConfirmDialog extends JDialog {
 	}
 	
 	public static boolean waitAndGetStatus(JFrame owner, int price) {
-		ConfirmDialog cd = new ConfirmDialog(owner, price);
+		ConfirmSell cd = new ConfirmSell(owner, price);
 		cd.setVisible(true);
 		//noinspection StatementWithEmptyBody
 		while(cd.status == -1);

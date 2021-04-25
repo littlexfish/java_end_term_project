@@ -242,6 +242,10 @@ public class MachineMiner implements Serializable {
 		}
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public Map<Mineral, Integer> getMineral() {
 		return mineral;
 	}
