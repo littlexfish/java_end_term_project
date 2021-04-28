@@ -35,6 +35,7 @@ public class ConfirmDialog extends JDialog {
 		confirm.setFocusable(false);
 		confirm.addActionListener(e -> {
 			status = 1;
+			dispose();
 		});
 		button.add(confirm);
 	}

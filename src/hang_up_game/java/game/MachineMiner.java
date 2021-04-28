@@ -68,13 +68,14 @@ public class MachineMiner implements Serializable {
 		int check = checkMining();
 		if(check != 0) {
 			checkPlugin(check);
-			this.battery -= 10;
-			FileHolder.machine.addBattery(Machine.Battery.quickData(machineBattery, battery));
-			return;
+			if(check != 4) return;
 		}
-		doMine();
+		if(check != 4) {
+			doMine();
+		}
 		this.battery -= 10;
-		FileHolder.machine.addBattery(Machine.Battery.quickData(machineBattery, battery));
+		machineBattery = Machine.Battery.quickData(machineBattery, this.battery);
+		FileHolder.machine.addBattery(machineBattery);
 	}
 	private void doMine() {
 		Mineral m = MiningMap.getMineral(chunkX, chunkY);
@@ -88,11 +89,13 @@ public class MachineMiner implements Serializable {
 	private void dealMineral(Mineral m) {
 		if(head.level >= m.level) {
 			int damage = Mineral.getHighestLevel() - head.level + m.level;
-			this.engineDamage--;
+			this.engineDamage++;
 			this.headDamage += damage;
 			mineral.put(m, mineral.getOrDefault(m, 0) + 1);
-			FileHolder.machine.addEngine(Machine.Engine.quickData(engine, this.engineDamage));
-			FileHolder.machine.addHead(Machine.Head.quickData(head, this.headDamage));
+			head = Machine.Head.quickData(head, this.headDamage);
+			engine = Machine.Engine.quickData(engine, this.engineDamage);
+			FileHolder.machine.addEngine(engine);
+			FileHolder.machine.addHead(head);
 		}
 	}
 	private void miningInit(int i, Machine.Engine e, Machine.Head h, Machine.Battery b, Machine.Chest c, Plugin[] p) {
@@ -120,6 +123,9 @@ public class MachineMiner implements Serializable {
 		engineDamage = e.getDamage();
 		headDamage = h.getDamage();
 		battery = b.getBattery();
+		
+		mineral = new EnumMap<>(Mineral.class);
+		items = new HashSet<>();
 	}
 	private void forward(Direct d) {
 		if(miningCount < 5) {

@@ -24,6 +24,9 @@ public class FixPanel extends JPanel {
 		JLabel des = new JLabel();
 		add(des, BorderLayout.EAST);
 		
+		JScrollPane scroll = new JScrollPane();
+		add(scroll, BorderLayout.CENTER);
+		
 		JList<Item> items = new JList<>(FileHolder.getNeedFix().toArray(new Item[0]));
 		items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		items.addListSelectionListener(e -> {
@@ -48,7 +51,7 @@ public class FixPanel extends JPanel {
 			sb.append("</html>");
 			des.setText(sb.toString());
 		});
-		add(items, BorderLayout.CENTER);
+		scroll.setViewportView(items);
 		
 		JButton fix = new JButton("修理");
 		fix.setFocusable(false);

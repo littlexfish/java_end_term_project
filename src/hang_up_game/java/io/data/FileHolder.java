@@ -6,7 +6,6 @@ import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.Mineral;
 import hang_up_game.java.io.data.storage.People;
-import hang_up_game.java.pos.Block;
 import hang_up_game.java.window.people.PeopleDetail;
 
 import java.io.FileNotFoundException;
@@ -38,7 +37,6 @@ public class FileHolder {
 			people = new People();
 			saver.add(config);
 			saver.add(map);
-			saver.add(miningData);
 			saver.add(shop);
 			saver.add(machine);
 			saver.add(mineral);

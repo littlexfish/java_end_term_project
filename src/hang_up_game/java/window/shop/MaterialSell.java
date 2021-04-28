@@ -24,7 +24,8 @@ public class MaterialSell extends JPanel {
 		
 		Mineral[] ms = Mineral.values();
 		
-		
+		JLabel moneyT = new JLabel("剩餘金額: $" + FileHolder.shop.getMoney());
+		add(moneyT, BorderLayout.NORTH);
 		
 		JPanel spinners = new JPanel(new GridLayout(size, 4, 5, 5));
 		add(spinners, BorderLayout.CENTER);
@@ -37,7 +38,7 @@ public class MaterialSell extends JPanel {
 		for(int i = 0;i < size;i++) {
 			int finalI = i;
 			//text
-			texts[i] = new JLabel(ms[i].chinese);
+			texts[i] = new JLabel(ms[i].chinese + " $" + ms[i].price);
 			spinners.add(texts[i]);
 			
 			//spinners reset button
@@ -65,7 +66,7 @@ public class MaterialSell extends JPanel {
 			
 		}
 		
-		JButton sell = new JButton("販賣");
+		JButton sell = new JButton("販賣 $0");
 		sell.setFocusable(false);
 		sell.addActionListener(e -> {
 			int[] values = new int[size];
@@ -80,10 +81,22 @@ public class MaterialSell extends JPanel {
 				FileHolder.shop.addMoney(price);
 				decodeMineral(values);
 				refreshSpinner(mineralSpinner);
+				moneyT.setText("剩餘金額: $" + FileHolder.shop.getMoney());
 			}
 		});
 		add(sell, BorderLayout.SOUTH);
-	
+		
+		for(int i = 0;i < size;i++) {
+			mineralSpinner[i].addChangeListener(e -> {
+				int price = 0;
+				for(int a = 0;a < size;a++) {
+					int value = (int)mineralSpinner[a].getValue();
+					price += value * ms[a].price;
+				}
+				sell.setText("販賣 $" + price);
+			});
+		}
+		
 	}
 	
 	private void decodeMineral(int[] values) {

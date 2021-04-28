@@ -2,7 +2,6 @@ package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
-import hang_up_game.java.game.Item;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.WarningWindow;
 
@@ -23,19 +22,20 @@ public class BlueprintPane extends JPanel {
 		JScrollPane scroll = new JScrollPane();
 		add(scroll, BorderLayout.CENTER);
 		
+		JLabel moneyT = new JLabel("剩餘金額: $" + FileHolder.shop.getMoney());
+		add(moneyT, BorderLayout.NORTH);
+		
 		JList<Blueprint> blueprint = new JList<>(Blueprints.getBlueprintCanBuy().toArray(new Blueprint[0]));
 		blueprint.setDragEnabled(true);
 		blueprint.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		blueprint.setFocusable(false);
 		scroll.setViewportView(blueprint);
 		
-		JButton buy = new JButton("購買");
+		JButton buy = new JButton("購買 $0");
 		buy.setFocusable(false);
 		buy.addActionListener(e -> {
+			if(blueprint.isSelectionEmpty()) return;
 			List<Blueprint> bs = blueprint.getSelectedValuesList();
-			if(blueprint.isSelectionEmpty()) {
-				return;
-			}
 			int price = bs.size() * priceEach;
 			int money = FileHolder.shop.getMoney();
 			if(money < price) {
@@ -50,9 +50,17 @@ public class BlueprintPane extends JPanel {
 				}
 				blueprint.clearSelection();
 				blueprint.setListData(Blueprints.getBlueprintCanBuy().toArray(new Blueprint[0]));
+				moneyT.setText("剩餘金額: $" + FileHolder.shop.getMoney());
 			}
 		});
 		add(buy, BorderLayout.SOUTH);
+		
+		blueprint.addListSelectionListener(e -> {
+			if(blueprint.isSelectionEmpty()) return;
+			List<Blueprint> bs = blueprint.getSelectedValuesList();
+			int price = bs.size() * priceEach;
+			buy.setText("購買 $" + price);
+		});
 		
 	}
 

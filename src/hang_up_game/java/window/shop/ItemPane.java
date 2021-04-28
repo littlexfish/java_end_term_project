@@ -21,6 +21,9 @@ public class ItemPane extends JPanel {
 		
 		setLayout(new BorderLayout(5, 5));
 		
+		JLabel moneyT = new JLabel("剩餘金額: $" + FileHolder.shop.getMoney());
+		add(moneyT, BorderLayout.NORTH);
+		
 		JPanel items = new JPanel(new GridLayout(3, 3, 5, 5));
 		add(items, BorderLayout.CENTER);
 		
@@ -43,6 +46,7 @@ public class ItemPane extends JPanel {
 					FileHolder.shop.addMoney(-price);
 					decodeItem(item[finalI].getItem());
 					item[finalI].setEnabled(false);
+					moneyT.setText("剩餘金額: $" + FileHolder.shop.getMoney());
 				}
 			});
 			items.add(item[i]);

@@ -111,7 +111,7 @@ public class Machine implements Saveable {
 			return;
 		}
 		engines.add(e);
-		machineJson.get("machine").getAsJsonArray().add(e.toJsonObject());
+		machineJson.get("engine").getAsJsonArray().add(e.toJsonObject());
 	}
 	
 	public synchronized void setEngine(Engine e) {

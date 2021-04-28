@@ -1,33 +1,17 @@
 package hang_up_game.java.io.data;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonStreamParser;
 import hang_up_game.java.io.data.storage.People;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MiningData implements Saveable {
+public class MiningData {
 	
-	private final File miningData = new File(getClass().getResource("/hang_up_game/files/miningData.json").toURI());
-	private final JsonArray miningDataJson = new JsonStreamParser(new FileReader(miningData)).next().getAsJsonArray();
 	private final LinkedList<Machine> data = new LinkedList<>();
 	
-	public MiningData() throws FileNotFoundException, URISyntaxException {
-		for(JsonElement je : miningDataJson) {
-			JsonObject jo = je.getAsJsonObject();
-			JsonObject part = jo.get("parts").getAsJsonObject();
-			data.add(new Machine(jo.get("machineId").getAsInt(),
-					new Machine.Parts(part.get("engineId").getAsInt(), part.get("headId").getAsInt(), part.get("batteryId").getAsInt(), part.get("chestId").getAsInt(), part.get("pluginId").getAsJsonArray())));
-			
-		}
+	public MiningData() {
 	}
 	
 	/**
@@ -52,16 +36,10 @@ public class MiningData implements Saveable {
 	public synchronized void addMachine(Machine m) {
 		if(getMachineFromId(m.id) != null) throw new IllegalStateException("machine is exist");
 		data.add(m);
-		miningDataJson.add(m.toJsonObject());
 	}
 	
 	public synchronized List<Machine> getData() {
 		return data;
-	}
-	
-	@Override
-	public void save() throws IOException {
-		Saveable.jsonSaver(miningDataJson.toString(), miningData);
 	}
 	
 	public static class Machine {
@@ -70,7 +48,7 @@ public class MiningData implements Saveable {
 			int nowId = 1;
 			while(true) {
 				boolean contain = false;
-				for(People.PickaxeData p : FileHolder.people.pickaxeData) {
+				for(Machine p : FileHolder.miningData.getData()) {
 					if(p.id == nowId) {
 						contain = true;
 						break;

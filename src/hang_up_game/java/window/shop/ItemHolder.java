@@ -9,7 +9,7 @@ public class ItemHolder extends JButton {
 	private Item item;
 	
 	public ItemHolder(Item item) {
-		super(item.name);
+		super("<html>" + item.name + "<br>$" + item.getBuyPrice() + "</html>");
 		this.item = item;
 	}
 	

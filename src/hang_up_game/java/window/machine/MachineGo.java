@@ -26,7 +26,7 @@ public class MachineGo extends JPanel {
 		detail = md;
 		frame = gf;
 		
-		
+		setLayout(new BorderLayout(5, 5));
 		
 		//layout
 		
@@ -36,6 +36,9 @@ public class MachineGo extends JPanel {
 		JPanel up = new JPanel(new GridLayout(1, 5, 5, 5));
 		center.add(up);
 		
+		JScrollPane engineS = new JScrollPane();
+		up.add(engineS);
+		
 		Machine.Engine[] es = FileHolder.machine.getUsableEngine().toArray(new Machine.Engine[0]);
 		if(es.length <= 0) throw new RuntimeException("no engine");
 		JList<Machine.Engine> engineList = new JList<>(es);
@@ -44,7 +47,10 @@ public class MachineGo extends JPanel {
 		engineList.addListSelectionListener(e -> {
 			engineText.setText(toHtml(engineList.getSelectedValue().list()));
 		});
-		up.add(engineList);
+		engineS.setViewportView(engineList);
+		
+		JScrollPane headS = new JScrollPane();
+		up.add(headS);
 		
 		Machine.Head[] hs = FileHolder.machine.getUsableHead().toArray(new Machine.Head[0]);
 		if(hs.length <= 0) throw new RuntimeException("no head");
@@ -54,7 +60,10 @@ public class MachineGo extends JPanel {
 		headList.addListSelectionListener(e -> {
 			headText.setText(toHtml(headList.getSelectedValue().list()));
 		});
-		up.add(headList);
+		headS.setViewportView(headList);
+		
+		JScrollPane batteryS = new JScrollPane();
+		up.add(batteryS);
 		
 		Machine.Battery[] bs = FileHolder.machine.getUsableBattery().toArray(new Machine.Battery[0]);
 		if(bs.length <= 0) throw new RuntimeException("no battery");
@@ -64,7 +73,10 @@ public class MachineGo extends JPanel {
 		batteryList.addListSelectionListener(e -> {
 		batteryText.setText(toHtml(batteryList.getSelectedValue().list()));
 		});
-		up.add(batteryList);
+		batteryS.setViewportView(batteryList);
+		
+		JScrollPane chestS = new JScrollPane();
+		up.add(chestS);
 		
 		Machine.Chest[] cs = FileHolder.machine.getUsableChest().toArray(new Machine.Chest[0]);
 		if(cs.length <= 0) throw new RuntimeException("no chest");
@@ -74,7 +86,10 @@ public class MachineGo extends JPanel {
 		chestList.addListSelectionListener(e -> {
 			chestText.setText(toHtml(chestList.getSelectedValue().list()));
 		});
-		up.add(chestList);
+		chestS.setViewportView(chestList);
+		
+		JScrollPane pluginS = new JScrollPane();
+		up.add(pluginS);
 		
 		Plugin[] ps = FileHolder.machine.getUsablePlugin().toArray(new Plugin[0]);
 		JList<Plugin> pluginList = new JList<>(ps);
@@ -84,14 +99,18 @@ public class MachineGo extends JPanel {
 		pluginList.addListSelectionListener(e -> {
 			pluginText.setText(toHtml(pluginList.getSelectedValuesList()));
 		});
-		up.add(pluginList);
+		pluginS.setViewportView(pluginList);
 		
 		JPanel down = new JPanel(new GridLayout(1, 5, 5, 5));
 		center.add(down);
 		
+		engineText.setText(toHtml(engineList.getSelectedValue().list()));
 		down.add(engineText);
+		headText.setText(toHtml(headList.getSelectedValue().list()));
 		down.add(headText);
+		batteryText.setText(toHtml(batteryList.getSelectedValue().list()));
 		down.add(batteryText);
+		chestText.setText(toHtml(chestList.getSelectedValue().list()));
 		down.add(chestText);
 		down.add(pluginText);
 		
@@ -100,6 +119,8 @@ public class MachineGo extends JPanel {
 		go.addActionListener(e -> {
 			new MachineMiner(engineList.getSelectedValue(), headList.getSelectedValue(), batteryList.getSelectedValue(),
 					chestList.getSelectedValue(), pluginList.getSelectedValuesList().toArray(new Plugin[0])).startMining();
+			detail.changeOnAir(Background.getAllMinerOnline());
+			frame.goBack();
 		});
 		add(go, BorderLayout.SOUTH);
 		

@@ -87,7 +87,7 @@ public enum Item {
 	}
 	
 	public int getBuyPrice() {
-		return price * 100;
+		return price * 3;
 	}
 	
 	@Override

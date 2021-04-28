@@ -19,27 +19,18 @@ public class ItemSell extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		
 		ArrayList<Item> allItems = FileHolder.getAllStorage();
+		
+		JScrollPane scroll = new JScrollPane();
+		add(scroll, BorderLayout.CENTER);
+		
 		JList<Item> itemList = new JList<>(allItems.toArray(new Item[0]));
 		itemList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		itemList.addListSelectionListener(e -> {
-			if(itemList.isSelectionEmpty()) return;
-			List<Item> selects = itemList.getSelectedValuesList();
-			hang_up_game.java.game.Item[] items = new hang_up_game.java.game.Item[selects.size()];
-			for(int i = 0;i < selects.size();i++) {
-				items[i] = hang_up_game.java.game.Item.getItemFromName(selects.get(i).name);
-			}
-			int price = 0;
-			for(hang_up_game.java.game.Item i : items) {
-				price += i.price;
-			}
-			itemLabel.setText("可獲得: $" + price);
-		});
-		add(itemList, BorderLayout.CENTER);
+		scroll.setViewportView(itemList);
 		
-		itemLabel = new JLabel();
-		add(itemLabel, BorderLayout.EAST);
+		itemLabel = new JLabel("剩餘金額: $" + FileHolder.shop.getMoney());
+		add(itemLabel, BorderLayout.NORTH);
 		
-		JButton sell = new JButton("販賣");
+		JButton sell = new JButton("販賣 $0");
 		sell.addActionListener(e -> {
 			if(itemList.isSelectionEmpty()) return;
 			List<Item> selects = itemList.getSelectedValuesList();
@@ -61,6 +52,20 @@ public class ItemSell extends JPanel {
 			}
 		});
 		add(sell, BorderLayout.SOUTH);
+		
+		itemList.addListSelectionListener(e -> {
+			if(itemList.isSelectionEmpty()) return;
+			List<Item> selects = itemList.getSelectedValuesList();
+			hang_up_game.java.game.Item[] items = new hang_up_game.java.game.Item[selects.size()];
+			for(int i = 0;i < selects.size();i++) {
+				items[i] = hang_up_game.java.game.Item.getItemFromName(selects.get(i).name);
+			}
+			int price = 0;
+			for(hang_up_game.java.game.Item i : items) {
+				price += i.price;
+			}
+			sell.setText("販賣 $" + price);
+		});
 		
 	}
 	
@@ -87,6 +92,7 @@ public class ItemSell extends JPanel {
 	private void refreshList(JList<Item> itemList) {
 		ArrayList<Item> allItems = FileHolder.getAllStorage();
 		itemList.setListData(allItems.toArray(new Item[0]));
+		itemLabel.setText("剩餘金額: $" + FileHolder.shop.getMoney());
 	}
 	
 }

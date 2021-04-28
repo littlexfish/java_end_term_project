@@ -2,23 +2,18 @@ package hang_up_game.java.io;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonStreamParser;
-import com.google.gson.stream.JsonWriter;
 import hang_up_game.java.game.Mineral;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.charset.spi.CharsetProvider;
 import java.util.Random;
 
 public class FileChecker {
 	
 	private final File setting = new File(getClass().getResource("/hang_up_game/files/config.json").toURI());
 	private final File map = new File(getClass().getResource("/hang_up_game/files/map.json").toURI());
-	private final File miningData = new File(getClass().getResource("/hang_up_game/files/miningData.json").toURI());
 	private final File shop = new File(getClass().getResource("/hang_up_game/files/shop.json").toURI());
 	private final File storagePeople = new File(getClass().getResource("/hang_up_game/files/storage/people.json").toURI());
 	private final File storageMachine = new File(getClass().getResource("/hang_up_game/files/storage/machine.json").toURI());
@@ -49,8 +44,7 @@ public class FileChecker {
 		long chestSeed = seedRandom.nextLong();
 		addJsonToFile("{\"play\":true,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0,\"mapSeed\":" + mapSeed + ",\"chestSeed\":" + chestSeed + "}}", setting);
 		addJsonToFile("[]", map);
-		addJsonToFile("[]", miningData);
-		addJsonToFile("{\"money\":0,\"unlockItemType\":[-1],\"bluePrintId\":[0,6,12,18,24,30]}", shop);
+		addJsonToFile("{\"money\":100,\"unlockItemType\":[-1],\"bluePrintId\":[0,6,12,18,24,30]}", shop);
 		addJsonToFile("{\"people\":[{\"name\":\"新手\",\"id\":1,\"maxStamina\":500,\"lastStamina\":500,\"strong\":10,\"skillId\":0," +
 				"\"skillValue\": []}],\"pickaxe\":[{\"id\":1,\"name\":\"新手稿子\",\"level\":1,\"maxDamage\":500,\"damage\":0}]," +
 				"\"bag\":[{\"id\":1,\"name\":\"新手包包\",\"maxSpace\":20}]}", storagePeople);

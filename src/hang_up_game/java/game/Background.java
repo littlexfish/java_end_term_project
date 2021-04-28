@@ -1,6 +1,9 @@
 package hang_up_game.java.game;
 
 import hang_up_game.java.io.data.FileHolder;
+import hang_up_game.java.io.data.storage.Item;
+import hang_up_game.java.io.data.storage.Machine;
+import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.Minimize;
 
 import java.awt.*;
@@ -52,6 +55,31 @@ public class Background {
 		synchronized(machineLock) {
 			machines.remove(mm);
 			FileHolder.miningData.releaseMachine(mm.getId());
+			Set<Mineral> ms = mm.getMineral().keySet();
+			for(Mineral m : ms) {
+				FileHolder.mineral.setMineral(m, FileHolder.mineral.getMineral(m) + mm.getMineral().get(m));
+			}
+			Set<Item> items = mm.getItems();
+			for(Item item : items) {
+				if(item instanceof People.PickaxeData) {
+					FileHolder.people.addPickaxe((People.PickaxeData)item);
+				}
+				if(item instanceof People.BagData) {
+					FileHolder.people.addBag((People.BagData)item);
+				}
+				if(item instanceof Machine.Engine) {
+					FileHolder.machine.addEngine((Machine.Engine)item);
+				}
+				if(item instanceof Machine.Head) {
+					FileHolder.machine.addHead((Machine.Head)item);
+				}
+				if(item instanceof Machine.Battery) {
+					FileHolder.machine.addBattery((Machine.Battery)item);
+				}
+				if(item instanceof Machine.Chest) {
+					FileHolder.machine.addChest((Machine.Chest)item);
+				}
+			}
 		}
 	}
 	public static void throwMsg(String title, String msg) {
@@ -66,5 +94,6 @@ public class Background {
 		return machines.keySet();
 	}
 	public static void makeSureBackground() {
+		machineRun();
 	}
 }

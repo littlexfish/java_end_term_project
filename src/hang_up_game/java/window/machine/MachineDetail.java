@@ -31,6 +31,7 @@ public class MachineDetail extends JPanel {
 		JButton check = new JButton("確認挖礦機");
 		check.setFocusable(false);
 		check.addActionListener(e -> {
+			if(mmList.isSelectionEmpty()) return;
 			if(on_air.size() > 0) {
 				parent.setPanel(new MachineCheck(parent, this, mmList.getSelectedValue()), "確認挖礦機");
 			}

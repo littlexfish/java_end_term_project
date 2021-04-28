@@ -24,6 +24,9 @@ public class CraftPane extends JPanel {
 		JLabel des = new JLabel();
 		add(des, BorderLayout.EAST);
 		
+		JScrollPane scroll = new JScrollPane();
+		add(scroll, BorderLayout.CENTER);
+		
 		JList<Blueprint> items = new JList<>(FileHolder.getBlueprintUnlock().toArray(new Blueprint[0]));
 		items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		items.addListSelectionListener(e -> {
@@ -37,7 +40,7 @@ public class CraftPane extends JPanel {
 			sb.append("</html>");
 			des.setText(sb.toString());
 		});
-		add(items, BorderLayout.CENTER);
+		scroll.setViewportView(items);
 		
 		JButton fix = new JButton("製作");
 		fix.setFocusable(false);

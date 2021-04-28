@@ -1,10 +1,13 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.game.Background;
+import hang_up_game.java.game.MachineMiner;
 import hang_up_game.java.io.data.FileHolder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Set;
 
 public class GameExitDialog extends JDialog {
 	
@@ -15,7 +18,7 @@ public class GameExitDialog extends JDialog {
 		setBounds(Constant.getMiddleWindowRectangle(250, 100));
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		
-		JLabel msg = new JLabel("確定要離開了嗎?");
+		JLabel msg = new JLabel("<html>確定要離開了嗎?<br>離開後會讓所有挖礦機強制返回</html>");
 		msg.setHorizontalAlignment(JLabel.CENTER);
 		getContentPane().add(msg, BorderLayout.CENTER);
 		
@@ -39,6 +42,10 @@ public class GameExitDialog extends JDialog {
 	}
 	
 	private void saveAllFile() {
+		Set<MachineMiner> mm = Background.getAllMinerOnline();
+		for(MachineMiner m : mm) {
+			Background.returnMachineMiner(m);
+		}
 		try {
 			FileHolder.saveFile();
 		}
