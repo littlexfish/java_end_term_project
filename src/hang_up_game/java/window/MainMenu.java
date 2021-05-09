@@ -3,6 +3,7 @@ package hang_up_game.java.window;
 import hang_up_game.java.window.crafting.Crafting;
 import hang_up_game.java.window.shop.Buy;
 import hang_up_game.java.window.shop.Shop;
+import hang_up_game.java.window.storage.Storage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +15,8 @@ public class MainMenu extends JPanel {
 	public MainMenu(GameFrame g) {
 		frame = g;
 		
-		JPanel centerButton = new JPanel(new GridLayout(7, 1, 5, 5));
-		centerButton.setPreferredSize(new Dimension(300, 200));
+		JPanel centerButton = new JPanel(new GridLayout(9, 1, 0, 0));
+		centerButton.setPreferredSize(new Dimension(400, 300));
 		add(centerButton, BorderLayout.CENTER);
 		
 		JLabel upPadding = new JLabel();
@@ -47,6 +48,16 @@ public class MainMenu extends JPanel {
 			frame.setPanel(new Crafting(frame), "工作坊");
 		});
 		centerButton.add(crafting);
+		
+		JLabel centerPadding3 = new JLabel();
+		centerButton.add(centerPadding3);
+		
+		JButton storage = new JButton("儲藏室");
+		storage.setFocusable(false);
+		storage.addActionListener(e -> {
+			frame.setPanel(new Storage(), "儲藏室");
+		});
+		centerButton.add(storage);
 		
 	}
 	

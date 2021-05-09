@@ -7,15 +7,15 @@ import hang_up_game.java.io.data.FileHolder;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class GameExitDialog extends JDialog {
 	
 	public GameExitDialog(JFrame owner) {
 		super(owner, true);
 		setTitle("離開");
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		setBounds(Constant.getMiddleWindowRectangle(250, 100));
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(Constant.getMiddleWindowRectangle(250, 150));
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		
 		JLabel msg = new JLabel("<html>確定要離開了嗎?<br>離開後會讓所有挖礦機強制返回</html>");
@@ -42,15 +42,19 @@ public class GameExitDialog extends JDialog {
 	}
 	
 	private void saveAllFile() {
-		Set<MachineMiner> mm = Background.getAllMinerOnline();
+		Background.throwMsg("挖礦機", "返回挖礦機...");
+		ArrayList<MachineMiner> mm = new ArrayList<>(Background.getAllMinerOnline());
 		for(MachineMiner m : mm) {
 			Background.returnMachineMiner(m);
 		}
+		Background.throwMsg("檔案", "儲存檔案中...");
 		try {
 			FileHolder.saveFile();
+			Background.throwMsg("檔案", "儲存完成");
 		}
 		catch(IOException e) {
 			e.printStackTrace();
+			Background.throwMsg("檔案", "儲存失敗");
 		}
 		System.exit(0);
 	}

@@ -15,8 +15,8 @@ public class Shop extends JPanel {
 	public Shop(GameFrame f) {
 		frame = f;
 		
-		JPanel centerButton = new JPanel(new GridLayout(7, 1, 5, 5));
-		centerButton.setPreferredSize(new Dimension(300, 200));
+		JPanel centerButton = new JPanel(new GridLayout(8, 1, 5, 5));
+		centerButton.setPreferredSize(new Dimension(400, 300));
 		add(centerButton, BorderLayout.CENTER);
 		
 		JLabel upPadding = new JLabel();

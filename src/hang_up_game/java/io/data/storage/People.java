@@ -302,7 +302,6 @@ public class People implements Saveable {
 			}
 		}
 		
-		//TODO: let skill comes true
 		public String list() {
 			return "名字:" + name + "\n體力:" + lastStamina + "/" + maxStamina + "\n力量:" + strong;
 		}

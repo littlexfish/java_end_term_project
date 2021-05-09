@@ -2,14 +2,9 @@ package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.io.data.FileHolder;
-import hang_up_game.java.io.data.storage.Item;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 
 public class MaterialSell extends JPanel {
@@ -20,9 +15,10 @@ public class MaterialSell extends JPanel {
 		frame = f;
 		EnumMap<Mineral, Integer> minerals = FileHolder.mineral.getAllMineral();
 		setLayout(new BorderLayout(5, 5));
-		int size = Mineral.values().length;
 		
 		Mineral[] ms = Mineral.values();
+		
+		int size = ms.length;
 		
 		JLabel moneyT = new JLabel("剩餘金額: $" + FileHolder.shop.getMoney());
 		add(moneyT, BorderLayout.NORTH);

@@ -4,6 +4,7 @@ import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.People;
+import hang_up_game.java.window.GameFrame;
 import hang_up_game.java.window.Minimize;
 
 import java.awt.*;
@@ -36,12 +37,7 @@ public class Background {
 			}
 		});
 		machines = new HashMap<>();
-		try {
-			minimize = new Minimize();
-		}
-		catch(AWTException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	public static void machineRun() {
 		minerThread.start();
@@ -93,7 +89,14 @@ public class Background {
 	public static Set<MachineMiner> getAllMinerOnline() {
 		return machines.keySet();
 	}
-	public static void makeSureBackground() {
+	public static void makeSureBackground(GameFrame gf) {
+		try {
+			minimize = new Minimize(gf);
+		}
+		catch(AWTException e) {
+			e.printStackTrace();
+		}
 		machineRun();
 	}
+	
 }
