@@ -16,11 +16,11 @@ public class MachineGo extends JPanel {
 	private final MachineDetail detail;
 	private final GameFrame frame;
 	
-	private JLabel engineText = new JLabel();
-	private JLabel headText = new JLabel();
-	private JLabel batteryText = new JLabel();
-	private JLabel chestText = new JLabel();
-	private JLabel pluginText = new JLabel();
+	private final JLabel engineText = new JLabel();
+	private final JLabel headText = new JLabel();
+	private final JLabel batteryText = new JLabel();
+	private final JLabel chestText = new JLabel();
+	private final JLabel pluginText = new JLabel();
 	
 	public MachineGo(GameFrame gf, MachineDetail md) {
 		detail = md;
@@ -44,9 +44,7 @@ public class MachineGo extends JPanel {
 		JList<Machine.Engine> engineList = new JList<>(es);
 		engineList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		engineList.setSelectedIndex(0);
-		engineList.addListSelectionListener(e -> {
-			engineText.setText(toHtml(engineList.getSelectedValue().list()));
-		});
+		engineList.addListSelectionListener(e -> engineText.setText(toHtml(engineList.getSelectedValue().list())));
 		engineS.setViewportView(engineList);
 		
 		JScrollPane headS = new JScrollPane();
@@ -57,9 +55,7 @@ public class MachineGo extends JPanel {
 		JList<Machine.Head> headList = new JList<>(hs);
 		headList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		headList.setSelectedIndex(0);
-		headList.addListSelectionListener(e -> {
-			headText.setText(toHtml(headList.getSelectedValue().list()));
-		});
+		headList.addListSelectionListener(e -> headText.setText(toHtml(headList.getSelectedValue().list())));
 		headS.setViewportView(headList);
 		
 		JScrollPane batteryS = new JScrollPane();
@@ -70,9 +66,7 @@ public class MachineGo extends JPanel {
 		JList<Machine.Battery> batteryList = new JList<>(bs);
 		batteryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		batteryList.setSelectedIndex(0);
-		batteryList.addListSelectionListener(e -> {
-		batteryText.setText(toHtml(batteryList.getSelectedValue().list()));
-		});
+		batteryList.addListSelectionListener(e -> batteryText.setText(toHtml(batteryList.getSelectedValue().list())));
 		batteryS.setViewportView(batteryList);
 		
 		JScrollPane chestS = new JScrollPane();
@@ -83,9 +77,7 @@ public class MachineGo extends JPanel {
 		JList<Machine.Chest> chestList = new JList<>(cs);
 		chestList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		chestList.setSelectedIndex(0);
-		chestList.addListSelectionListener(e -> {
-			chestText.setText(toHtml(chestList.getSelectedValue().list()));
-		});
+		chestList.addListSelectionListener(e -> chestText.setText(toHtml(chestList.getSelectedValue().list())));
 		chestS.setViewportView(chestList);
 		
 		JScrollPane pluginS = new JScrollPane();
@@ -96,9 +88,7 @@ public class MachineGo extends JPanel {
 		if(ps.length > 0) {
 			pluginList.setSelectedIndex(0);
 		}
-		pluginList.addListSelectionListener(e -> {
-			pluginText.setText(toHtml(pluginList.getSelectedValuesList()));
-		});
+		pluginList.addListSelectionListener(e -> pluginText.setText(toHtml(pluginList.getSelectedValuesList())));
 		pluginS.setViewportView(pluginList);
 		
 		JPanel down = new JPanel(new GridLayout(1, 5, 5, 5));

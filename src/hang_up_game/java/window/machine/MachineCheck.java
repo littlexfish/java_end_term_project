@@ -16,12 +16,10 @@ import java.util.Set;
 public class MachineCheck extends JPanel {
 	
 	private final GameFrame parent;
-	private final MachineDetail detail;
 	private final MachineMiner MM;
 	
 	public MachineCheck(GameFrame window, MachineDetail detail, MachineMiner mm) {
 		parent = window;
-		this.detail = detail;
 		MM = mm;
 		
 		setLayout(new BorderLayout(5, 5));
@@ -67,9 +65,7 @@ public class MachineCheck extends JPanel {
 		
 		JComboBox<Direct> dir = new JComboBox<>(Direct.values());
 		dir.setSelectedItem(MM.getDirect());
-		dir.addItemListener(e -> {
-			MM.setDirect((Direct)e.getItem());
-		});
+		dir.addItemListener(e -> MM.setDirect((Direct)e.getItem()));
 		down.add(dir);
 		
 		JButton returnMachine = new JButton("呼叫挖礦機返回");

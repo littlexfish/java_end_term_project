@@ -8,7 +8,6 @@ import hang_up_game.java.window.WarningWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class ItemPane extends JPanel {
 	
@@ -17,7 +16,6 @@ public class ItemPane extends JPanel {
 	
 	public ItemPane(JFrame owner) {
 		frame = owner;
-		Random r = new Random();
 		
 		setLayout(new BorderLayout(5, 5));
 		

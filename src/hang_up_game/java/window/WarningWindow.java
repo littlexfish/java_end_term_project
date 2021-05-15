@@ -1,8 +1,9 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.io.Log;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
 public class WarningWindow extends JDialog {
 	
@@ -19,11 +20,12 @@ public class WarningWindow extends JDialog {
 	public static final int Result_NONE = 0;
 	
 	public int result = Result_NONE;
-	public int CloseType = JFrame.DISPOSE_ON_CLOSE;
+	public int CloseType;
 	public boolean isTimeType = false;
 	public int delay;
 	
 	public WarningWindow(String title, String msg, int dialogType, int closeType, int time) {
+		Log.i("warning panel", "warning " + title + ", msg: " + msg);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(closeType);
 		setTitle(title);

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ItemSell extends JPanel {
 	
-	private JLabel itemLabel;
+	private final JLabel itemLabel;
 	private final JFrame frame;
 	
 	public ItemSell(JFrame f) {

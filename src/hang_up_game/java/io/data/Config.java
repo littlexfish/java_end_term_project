@@ -7,14 +7,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
 
 public class Config implements Saveable {
 	
-	private final File config = new File(getClass().getResource("/hang_up_game/files/config.json").toURI());
-	private final JsonElement configJson = new JsonStreamParser(new FileReader(config)).next();
+	private final File config = new File("./miner/config.json");
+	private final JsonElement configJson = new JsonStreamParser(Files.newBufferedReader(config.toPath())).next();
 	
-	public Config() throws URISyntaxException, FileNotFoundException {
+	public Config() throws IOException {
 	}
 	
 	/**

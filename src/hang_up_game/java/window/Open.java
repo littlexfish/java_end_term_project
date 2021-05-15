@@ -1,11 +1,7 @@
 package hang_up_game.java.window;
 
-import hang_up_game.java.io.FileChecker;
-
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class Open extends JFrame {
 

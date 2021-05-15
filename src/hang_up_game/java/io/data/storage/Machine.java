@@ -6,27 +6,26 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.MiningData;
-import hang_up_game.java.io.data.Plugin;
 import hang_up_game.java.io.data.Saveable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.*;
 
 public class Machine implements Saveable {
 	
-	private final File storageMachine = new File(getClass().getResource("/hang_up_game/files/storage/machine.json").toURI());
-	private final JsonObject machineJson = new JsonStreamParser(new FileReader(storageMachine)).next().getAsJsonObject();
+	private final File storageMachine = new File("./miner/storage/machine.json");
+	private final JsonObject machineJson = new JsonStreamParser(Files.newBufferedReader(storageMachine.toPath())).next().getAsJsonObject();
 	private final LinkedList<Engine> engines = new LinkedList<>();
 	private final LinkedList<Head> heads = new LinkedList<>();
 	private final LinkedList<Battery> batteries = new LinkedList<>();
 	private final LinkedList<Chest> chests = new LinkedList<>();
 	private final LinkedList<Plugin> plugin = new LinkedList<>();
 	
-	public Machine() throws URISyntaxException, FileNotFoundException {
+	public Machine() throws IOException {
 		//engine
 		{
 			JsonArray ja = machineJson.get("engine").getAsJsonArray();
@@ -323,6 +322,23 @@ public class Machine implements Saveable {
 		return itemsNotOnline;
 	}
 	
+	public synchronized ArrayList<Battery> getBatteryNeedCharge() {
+		List<MiningData.Machine> data = FileHolder.miningData.getData();
+		ArrayList<Battery> batteryCharge = new ArrayList<>();
+		BS:
+		for(Battery b : batteries) {
+			for(MiningData.Machine datum : data) {
+				if(b.id == datum.parts.batteryId) {
+					continue BS;
+				}
+			}
+			if(b.battery < b.maxBattery) {
+				batteryCharge.add(b);
+			}
+		}
+		return batteryCharge;
+	}
+	
 	public synchronized List<Engine> getUsableEngine() {
 		LinkedList<Engine> es = new LinkedList<>();
 		List<MiningData.Machine> ma = FileHolder.miningData.getData();
@@ -403,9 +419,9 @@ public class Machine implements Saveable {
 	public static Engine getRandomEngine(int minStrong, int maxStrong) {
 		Random r = new Random();
 		int strong = minStrong + r.nextInt(maxStrong - minStrong + 1);
-		int min = 0;
-		int max = 0;
-		String name = "";
+		int min;
+		int max;
+		String name;
 		if(strong < 30) {
 			name = "新手引擎";
 			min = 1000;
@@ -484,7 +500,7 @@ public class Machine implements Saveable {
 	public static Battery getRandomBattery(int min, int max) {
 		Random r = new Random();
 		int battery = min + r.nextInt(max - min + 1);
-		String name = "";
+		String name;
 		if(battery < 10000) name = "新手電池";
 		else if(battery < 15000) name = "進階電池";
 		else if(battery < 30000) name = "高級電池";
@@ -496,7 +512,7 @@ public class Machine implements Saveable {
 	public static Chest getRandomChest(int min, int max) {
 		Random r = new Random();
 		int space = min + r.nextInt(max - min + 1);
-		String name = "";
+		String name;
 		if(space < 1000) name = "新手箱子";
 		else if(space < 2000) name = "進階箱子";
 		else if(space < 5000) name = "高級箱子";

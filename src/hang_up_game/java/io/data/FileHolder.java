@@ -8,10 +8,10 @@ import hang_up_game.java.io.data.storage.Mineral;
 import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.people.PeopleDetail;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -42,7 +42,8 @@ public class FileHolder {
 			saver.add(mineral);
 			saver.add(people);
 		}
-		catch(URISyntaxException | FileNotFoundException e) {
+		catch(IOException e) {
+			e.printStackTrace(FileHolder.getExportCrashReport());
 			e.printStackTrace();
 		}
 	}
@@ -139,18 +140,42 @@ public class FileHolder {
 		int pickInd = pd.pickaxeList.getSelectedIndex();
 		pd.peopleList.removeListSelectionListener(pd.peopleList.getListSelectionListeners()[0]);
 		pd.peopleList.setListData(pd.allPeople.toArray(new People.PeopleData[0]));
-		pd.peopleList.addListSelectionListener(e -> {
-			pd.peopleLabel.setText(pd.toHtml(pd.peopleList.getSelectedValue().list()));
-		});
+		pd.peopleList.addListSelectionListener(e -> pd.peopleLabel.setText(pd.toHtml(pd.peopleList.getSelectedValue().list())));
 		pd.peopleList.setSelectedIndex(peoInd);
 		pd.pickaxeList.removeListSelectionListener(pd.pickaxeList.getListSelectionListeners()[0]);
 		pd.pickaxeList.setListData(pd.allPickaxe.toArray(new People.PickaxeData[0]));
-		pd.pickaxeList.addListSelectionListener(e -> {
-			pd.pickaxeLabel.setText(pd.toHtml(pd.pickaxeList.getSelectedValue().list()));
-		});
+		pd.pickaxeList.addListSelectionListener(e -> pd.pickaxeLabel.setText(pd.toHtml(pd.pickaxeList.getSelectedValue().list())));
 		pd.pickaxeList.setSelectedIndex(pickInd);
 		pd.peopleLabel.setText(pd.toHtml(pd.peopleList.getSelectedValue().list()));
 		pd.pickaxeLabel.setText(pd.toHtml(pd.pickaxeList.getSelectedValue().list()));
+	}
+	public static PrintStream getExportCrashReport() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+		File crash = new File("miner/crash-report");
+		if(!crash.exists()) crash.mkdir();
+		File f = new File("miner/crash-report/" + sdf.format(date) + ".crash");
+		if(!f.exists()) {
+			try {
+				//noinspection ResultOfMethodCallIgnored
+				f.createNewFile();
+			}
+			catch(IOException e) {
+				//創建檔案錯誤
+				e.printStackTrace();
+				//will throw NullPointException
+				return null;
+			}
+		}
+		try {
+			return new PrintStream(f);
+		}
+		catch(FileNotFoundException e) {
+			//照理來說不會發生
+			e.printStackTrace();
+		}
+		//will throw NullPointException
+		return null;
 	}
 	
 }

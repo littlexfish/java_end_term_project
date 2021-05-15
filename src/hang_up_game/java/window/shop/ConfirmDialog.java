@@ -1,8 +1,6 @@
 package hang_up_game.java.window.shop;
 
-import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.Constant;
-import hang_up_game.java.window.WarningWindow;
 
 import javax.swing.*;
 import java.awt.*;

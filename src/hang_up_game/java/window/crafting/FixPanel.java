@@ -14,11 +14,8 @@ import java.awt.*;
 import java.util.Set;
 
 public class FixPanel extends JPanel {
-
-	private final JFrame frame;
 	
-	public FixPanel(JFrame f) {
-		frame = f;
+	public FixPanel() {
 		setLayout(new BorderLayout(5, 5));
 		
 		JLabel des = new JLabel();
@@ -43,6 +40,7 @@ public class FixPanel extends JPanel {
 			if(item instanceof Machine.Head) {
 				percent = (float)((Machine.Head)item).getDamage() / ((Machine.Head)item).maxDamage;
 			}
+			assert b != null;
 			Set<Mineral> mSet =  b.craftRes.keySet();
 			StringBuilder sb = new StringBuilder("<html>修復所需素材: <br>");
 			for(Mineral m : mSet) {
@@ -69,6 +67,7 @@ public class FixPanel extends JPanel {
 			if(item instanceof Machine.Head) {
 				percent = (float)((Machine.Head)item).getDamage() / ((Machine.Head)item).maxDamage;
 			}
+			assert b != null;
 			Set<Mineral> mSet =  b.craftRes.keySet();
 			for(Mineral m : mSet) {
 				int need = (int)(b.craftRes.get(m) / 2.0 * percent) + 1;

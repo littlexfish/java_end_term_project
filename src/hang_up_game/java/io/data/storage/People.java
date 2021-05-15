@@ -5,29 +5,25 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.io.data.FileHolder;
-import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Saveable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("unused")
 public class People implements Saveable {
 	
-	private final File storagePeople = new File(getClass().getResource("/hang_up_game/files/storage/people.json").toURI());
-	private final JsonObject peopleJson = new JsonStreamParser(new FileReader(storagePeople)).next().getAsJsonObject();
+	private final File storagePeople = new File("./miner/storage/people.json");
+	private final JsonObject peopleJson = new JsonStreamParser(Files.newBufferedReader(storagePeople.toPath())).next().getAsJsonObject();
 	public final LinkedList<PeopleData> peopleData = new LinkedList<>();
 	public final LinkedList<PickaxeData> pickaxeData = new LinkedList<>();
 	public final LinkedList<BagData> bagData = new LinkedList<>();
 	
-	public People() throws URISyntaxException, FileNotFoundException {
+	public People() throws IOException {
 		//people
 		{
 			JsonArray ja = peopleJson.get("people").getAsJsonArray();
@@ -240,6 +236,15 @@ public class People implements Saveable {
 		items.addAll(pickaxeData);
 		items.addAll(bagData);
 		return items;
+	}
+	public synchronized ArrayList<PeopleData> getPeopleData() {
+		ArrayList<PeopleData> needRecover = new ArrayList<>();
+		for(PeopleData pd : peopleData) {
+			if(pd.lastStamina < pd.maxStamina) {
+				needRecover.add(pd);
+			}
+		}
+		return needRecover;
 	}
 	
 	@Override

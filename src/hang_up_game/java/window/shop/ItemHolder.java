@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class ItemHolder extends JButton {
 	
-	private Item item;
+	private final Item item;
 	
 	public ItemHolder(Item item) {
 		super("<html>" + item.name + "<br>$" + item.getBuyPrice() + "</html>");

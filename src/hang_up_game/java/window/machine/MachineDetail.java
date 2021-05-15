@@ -12,7 +12,7 @@ import java.util.Set;
 public class MachineDetail extends JPanel {
 	
 	private Set<MachineMiner> on_air;
-	private JList<MachineMiner> mmList;
+	private final JList<MachineMiner> mmList;
 	private final GameFrame parent;
 	
 	public MachineDetail(GameFrame window) {
@@ -22,7 +22,7 @@ public class MachineDetail extends JPanel {
 		
 		//layout
 		mmList = new JList<>(on_air.toArray(new MachineMiner[0]));
-		mmList.setPreferredSize(new Dimension(300, 200));
+		mmList.setPreferredSize(new Dimension(400, 250));
 		add(mmList, BorderLayout.CENTER);
 		
 		JPanel down = new JPanel(new GridLayout(1, 2, 5, 5));

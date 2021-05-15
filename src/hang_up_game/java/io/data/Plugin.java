@@ -1,7 +1,6 @@
 package hang_up_game.java.io.data;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 
 public enum Plugin {
 	

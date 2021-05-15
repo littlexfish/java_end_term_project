@@ -40,9 +40,7 @@ public class MaterialSell extends JPanel {
 			//spinners reset button
 			reset[i] = new JButton("重設");
 			reset[i].setFocusable(false);
-			reset[i].addActionListener(e -> {
-				mineralSpinner[finalI].setValue(0);
-			});
+			reset[i].addActionListener(e -> mineralSpinner[finalI].setValue(0));
 			spinners.add(reset[i]);
 			
 			//spinners
@@ -55,9 +53,7 @@ public class MaterialSell extends JPanel {
 			//spinners max button
 			maxButton[i] = new JButton("最大");
 			maxButton[i].setFocusable(false);
-			maxButton[i].addActionListener(e -> {
-				mineralSpinner[finalI].setValue(((SpinnerNumberModel)mineralSpinner[finalI].getModel()).getMaximum());
-			});
+			maxButton[i].addActionListener(e -> mineralSpinner[finalI].setValue(((SpinnerNumberModel)mineralSpinner[finalI].getModel()).getMaximum()));
 			spinners.add(maxButton[i]);
 			
 		}

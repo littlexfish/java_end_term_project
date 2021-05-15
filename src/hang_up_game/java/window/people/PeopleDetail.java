@@ -1,5 +1,6 @@
 package hang_up_game.java.window.people;
 
+import hang_up_game.java.game.Background;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.People;
 
@@ -83,6 +84,7 @@ public class PeopleDetail extends JPanel {
 	
 	private void openPeopleMining() {
 		PeopleMining pm = new PeopleMining(this, peopleList.getSelectedValue(), pickaxeList.getSelectedValue(), bagList.getSelectedValue());
+		Background.stopRecover();
 		pm.setVisible(true);
 	}
 	

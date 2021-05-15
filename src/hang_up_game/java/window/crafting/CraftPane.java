@@ -1,7 +1,6 @@
 package hang_up_game.java.window.crafting;
 
 import hang_up_game.java.game.Blueprint;
-import hang_up_game.java.game.Blueprints;
 import hang_up_game.java.game.Item;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.io.data.FileHolder;
@@ -14,11 +13,8 @@ import java.awt.*;
 import java.util.Set;
 
 public class CraftPane extends JPanel {
-
-	private final JFrame frame;
 	
-	public CraftPane(JFrame f) {
-		frame = f;
+	public CraftPane() {
 		setLayout(new BorderLayout(5, 5));
 		
 		JLabel des = new JLabel();

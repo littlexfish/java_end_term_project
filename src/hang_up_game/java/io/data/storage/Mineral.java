@@ -8,15 +8,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.EnumMap;
 
 public class Mineral implements Saveable {
 	
-	private final File storageMineral = new File(getClass().getResource("/hang_up_game/files/storage/mineral.json").toURI());
-	private final JsonObject mineralJson = new JsonStreamParser(new FileReader(storageMineral)).next().getAsJsonObject();
+	private final File storageMineral = new File("./miner/storage/mineral.json");
+	private final JsonObject mineralJson = new JsonStreamParser(Files.newBufferedReader(storageMineral.toPath())).next().getAsJsonObject();
 	
-	public Mineral() throws URISyntaxException, FileNotFoundException { }
+	public Mineral() throws IOException { }
 	
 	public int getSpace() {
 		return mineralJson.get("space").getAsInt();

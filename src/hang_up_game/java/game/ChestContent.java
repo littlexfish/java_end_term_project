@@ -6,7 +6,7 @@ import hang_up_game.java.io.data.storage.People;
 
 public enum ChestContent {
 	
-	Common(100000, 0, 0)
+	Common(10000, 0, 0)
 	,
 	CommonMine(30, 1, 2, People.getRandomPickaxe(1, 2), Machine.getRandomHead(1, 2))
 	,

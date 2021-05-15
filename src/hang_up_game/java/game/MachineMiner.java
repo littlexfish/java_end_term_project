@@ -1,5 +1,6 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Plugin;
@@ -9,7 +10,6 @@ import hang_up_game.java.window.Constant;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.List;
 
 public class MachineMiner implements Serializable {
 	
@@ -67,6 +67,7 @@ public class MachineMiner implements Serializable {
 	public void mine() {
 		int check = checkMining();
 		if(check != 0) {
+			Log.i("machine", "id:" + id + " " + msgToPrint.get(check));
 			checkPlugin(check);
 			if(check != 4) return;
 		}
@@ -82,12 +83,16 @@ public class MachineMiner implements Serializable {
 		Set<Item> itemGet = MiningMap.findItem(chunkX, chunkY, blockInChunkX,blockInChunkY);
 		dealMineral(m);
 		items.addAll(itemGet);
+		if(!itemGet.isEmpty()) {
+			Log.i("machine", "id:" + id + " get " + itemGet.size() + " item(s)");
+		}
 		synchronized(directLock) {
 			forward(direct);
 		}
 	}
 	private void dealMineral(Mineral m) {
 		if(head.level >= m.level) {
+			Log.i("machine", "id:" + id + " get " + m.name());
 			int damage = Mineral.getHighestLevel() - head.level + m.level;
 			this.engineDamage++;
 			this.headDamage += damage;
@@ -99,6 +104,7 @@ public class MachineMiner implements Serializable {
 		}
 	}
 	private void miningInit(int i, Machine.Engine e, Machine.Head h, Machine.Battery b, Machine.Chest c, Plugin[] p) {
+		Log.i("machine", "id:" + id + " init");
 		chunkX = 0;
 		chunkY = 0;
 		blockInChunkX = 0;

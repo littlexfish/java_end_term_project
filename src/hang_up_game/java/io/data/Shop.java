@@ -1,19 +1,22 @@
 package hang_up_game.java.io.data;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonStreamParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
 
 public class Shop implements Saveable {
 	
-	private final File shop = new File(getClass().getResource("/hang_up_game/files/shop.json").toURI());
-	private final JsonObject shopJson = new JsonStreamParser(new FileReader(shop)).next().getAsJsonObject();
+	private final File shop = new File("./miner/shop.json");
+	private final JsonObject shopJson = new JsonStreamParser(Files.newBufferedReader(shop.toPath())).next().getAsJsonObject();
 	
-	public Shop() throws URISyntaxException, FileNotFoundException {
+	public Shop() throws IOException {
 	}
 	
 	public synchronized int[] getUnlockItems() {

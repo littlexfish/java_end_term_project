@@ -10,14 +10,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Files;
 
 public class Map implements Saveable {
 	
-	private final File map = new File(getClass().getResource("/hang_up_game/files/map.json").toURI());
-	private final JsonArray mapJson = new JsonStreamParser(new FileReader(map)).next().getAsJsonArray();
+	private final File map = new File("./miner/map.json");
+	private final JsonArray mapJson = new JsonStreamParser(Files.newBufferedReader(map.toPath())).next().getAsJsonArray();
 	
-	public Map() throws URISyntaxException, FileNotFoundException {
+	public Map() throws IOException {
 	}
 	
 	public synchronized int getLastChestCount(int chunkX, int chunkY) {

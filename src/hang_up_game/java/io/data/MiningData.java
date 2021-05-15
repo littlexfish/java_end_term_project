@@ -2,7 +2,6 @@ package hang_up_game.java.io.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import hang_up_game.java.io.data.storage.People;
 
 import java.util.LinkedList;
 import java.util.List;

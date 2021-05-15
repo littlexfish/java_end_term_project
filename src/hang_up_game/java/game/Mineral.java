@@ -2,7 +2,7 @@ package hang_up_game.java.game;
 
 public enum Mineral {
 	
-	Stone(500, "石頭", 1, 10, 1),
+	Stone(300, "石頭", 1, 10, 1),
 	Copper(50, "銅", 2, 20, 5),
 	Iron(20, "鐵", 3, 20, 10),
 	Silver(10, "銀", 3, 10, 10),

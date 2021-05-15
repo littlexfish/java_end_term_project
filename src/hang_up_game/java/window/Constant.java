@@ -5,8 +5,9 @@ import java.awt.*;
 
 public class Constant {
 	
-	public static final String detail = "<html>Version: beta 1.0<br>Create by: Little Fish</html>";
-	public static final Image icon = Toolkit.getDefaultToolkit().getImage(Constant.class.getResource("/hang_up_game/files/img/icon.png"));
+	public static final String github = "https://github.com/littlexfish";
+	public static final String detail = "<html><center>版本: beta 1.0<br>製作: Little Fish<br>Github: " + github + "(點擊以複製)</center></html>";
+	public static final Image icon = getImage("icon");
 	public static final String ApplicationName = "Miner";
 	
 	public static Point getMiddleWindowPoint(int width, int height) {

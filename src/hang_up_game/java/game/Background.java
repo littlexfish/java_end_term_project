@@ -1,5 +1,6 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
@@ -8,6 +9,7 @@ import hang_up_game.java.window.GameFrame;
 import hang_up_game.java.window.Minimize;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,10 +18,22 @@ public class Background {
 	
 	private static final Object machineLock = new Object();
 	private static final Thread minerThread;
+	
+	private static final Thread recoverThread;
+	private static boolean recover = true;
+	private static final int recoverDelay = 500;
+	private static final Object recoverLock = new Object();
+	
+	private static final Thread chargeThread;
+	private static boolean charge = true;
+	private static final int chargeDelay = 50;
+	private static final Object chargeLock = new Object();
+	
 	private static final Map<MachineMiner, long[]> machines;
 	private static Minimize minimize = null;
 	
 	static {
+		Log.d("background", "init thread");
 		minerThread = new Thread(() -> {
 			while(true) {
 				Set<MachineMiner> machineSet;
@@ -38,6 +52,61 @@ public class Background {
 		});
 		machines = new HashMap<>();
 		
+		recoverThread = new Thread(() -> {
+			while(true) {
+				if(!recover) {
+					synchronized(recoverLock) {
+						try {
+							recoverLock.wait();
+							recover = true;
+						}
+						catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				//stamina
+				ArrayList<People.PeopleData> needRecover = FileHolder.people.getPeopleData();
+				for(People.PeopleData p : needRecover) {
+					FileHolder.people.setPeople(People.PeopleData.quickData(p, p.lastStamina + 1));
+				}
+				
+				try {
+					//noinspection BusyWait
+					Thread.sleep(recoverDelay);
+				}
+				catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		chargeThread = new Thread(() -> {
+			while(true) {
+				if(!charge) {
+					synchronized(chargeLock) {
+						try {
+							chargeLock.wait();
+							charge = true;
+						}
+						catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				//battery
+				ArrayList<Machine.Battery> needCharge = FileHolder.machine.getBatteryNeedCharge();
+				for(Machine.Battery b : needCharge) {
+					FileHolder.machine.setBattery(Machine.Battery.quickData(b, b.getBattery() + 1));
+				}
+				try {
+					//noinspection BusyWait
+					Thread.sleep(chargeDelay);
+				}
+				catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	public static void machineRun() {
 		minerThread.start();
@@ -84,19 +153,41 @@ public class Background {
 		}
 	}
 	private static int getDelay(int strong) {
-		return 1000 / strong * 100;
+		return 1000 / (strong * 100);
 	}
 	public static Set<MachineMiner> getAllMinerOnline() {
 		return machines.keySet();
+	}
+	public static void startRecover() {
+		synchronized(recoverLock) {
+			recoverLock.notify();
+			recover = true;
+		}
+	}
+	public static void stopRecover() {
+		recover = false;
+	}
+	public static void startCharge() {
+		synchronized(chargeLock) {
+			chargeLock.notify();
+			charge = true;
+		}
+	}
+	public static void stopCharge() {
+		charge = false;
 	}
 	public static void makeSureBackground(GameFrame gf) {
 		try {
 			minimize = new Minimize(gf);
 		}
 		catch(AWTException e) {
+			e.printStackTrace(FileHolder.getExportCrashReport());
 			e.printStackTrace();
 		}
 		machineRun();
+//		stopCharge();
+		chargeThread.start();
+		recoverThread.start();
 	}
 	
 }

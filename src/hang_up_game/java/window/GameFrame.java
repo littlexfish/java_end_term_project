@@ -1,12 +1,14 @@
 package hang_up_game.java.window;
 
 import hang_up_game.java.game.Background;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
+import hang_up_game.java.window.crafting.Crafting;
+import hang_up_game.java.window.menu_bar.Manual;
 import hang_up_game.java.window.menu_bar.Version;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -36,13 +38,16 @@ public class GameFrame extends JFrame {
 		JMenuItem save = new JMenuItem("手動存檔", Constant.getIcon("save", 20, 20));
 		save.setFont(new Font("SimSun", Font.PLAIN, 15));
 		save.addActionListener(e -> {
-			Background.throwMsg("檔案", "儲存檔案中");
+			Log.i("file", "saving...");
 			try {
 				FileHolder.saveFile();
+				Log.i("file", "succeed");
 				Background.throwMsg("檔案", "儲存完成");
 			}
 			catch(IOException ioException) {
+				ioException.printStackTrace(FileHolder.getExportCrashReport());
 				ioException.printStackTrace();
+				Log.e("file", "failed");
 				Background.throwMsg("檔案", "儲存失敗");
 			}
 		});
@@ -64,9 +69,7 @@ public class GameFrame extends JFrame {
 		
 		JMenuItem manual = new JMenuItem("說明  ", Constant.getIcon("help", 20, 20));
 		manual.setFont(new Font("SimSun", Font.PLAIN, 15));
-		manual.addActionListener(e -> {
-			System.out.println("asd");
-		});
+		manual.addActionListener(e -> Manual.openManual());
 		help.add(manual);
 		
 		
@@ -76,9 +79,11 @@ public class GameFrame extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				synchronized(backLock) {
 					if(keyList.size() > 1) { // not main menu
+						Log.i("game", "back to last panel");
 						goBack();
 					}
 					else { // is main menu, check close game or not
+						Log.i("game", "on exit");
 						onExit();
 					}
 				}
@@ -87,6 +92,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void windowIconified(WindowEvent e) {
 				dispose();
+				Log.i("game", "minimized");
 				Background.throwMsg("最小化", "遊戲已隱藏至圖示");
 			}
 			
@@ -114,6 +120,9 @@ public class GameFrame extends JFrame {
 	
 	public void setPanel(JPanel p, String title) {
 		synchronized(backLock) {
+//			if(p instanceof Crafting) {
+//				Background.startCharge();
+//			}
 			setTitle(title);
 			setContentPane(p);
 			int width = getWidth(), height = getHeight();
@@ -125,6 +134,9 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void goBack() {
+//		if(panelList.get(getTitle()).pane instanceof Crafting) {
+//			Background.stopCharge();
+//		}
 		panelList.remove(getTitle());
 		keyList.removeLast();
 		PanelCache pc = panelList.get(keyList.getLast());
@@ -136,6 +148,8 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void onExit() {
+		Background.stopCharge();
+		Background.stopRecover();
 		GameExitDialog ged = new GameExitDialog(this);
 		ged.setVisible(true);
 	}

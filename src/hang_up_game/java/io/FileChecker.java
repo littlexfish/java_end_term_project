@@ -3,24 +3,43 @@ package hang_up_game.java.io;
 import com.google.gson.Gson;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.game.Mineral;
+import hang_up_game.java.io.data.FileHolder;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Random;
 
 public class FileChecker {
 	
-	private final File setting = new File(getClass().getResource("/hang_up_game/files/config.json").toURI());
-	private final File map = new File(getClass().getResource("/hang_up_game/files/map.json").toURI());
-	private final File shop = new File(getClass().getResource("/hang_up_game/files/shop.json").toURI());
-	private final File storagePeople = new File(getClass().getResource("/hang_up_game/files/storage/people.json").toURI());
-	private final File storageMachine = new File(getClass().getResource("/hang_up_game/files/storage/machine.json").toURI());
-	private final File storageMineral = new File(getClass().getResource("/hang_up_game/files/storage/mineral.json").toURI());
+	private final File setting = new File("./miner/config.json");
+	private final File map = new File("./miner/map.json");
+	private final File shop = new File("./miner/shop.json");
+	private final File storagePeople = new File("./miner/storage/people.json");
+	private final File storageMachine = new File("./miner/storage/machine.json");
+	private final File storageMineral = new File("./miner/storage/mineral.json");
 	
-	public FileChecker() throws URISyntaxException {}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+	public FileChecker() {
+		try {
+			File rootDir = new File("./miner");
+			if(!rootDir.exists()) rootDir.mkdir();
+			if(!setting.exists()) setting.createNewFile();
+			if(!map.exists()) map.createNewFile();
+			if(!shop.exists()) shop.createNewFile();
+			File storage = new File("./miner/storage");
+			if(!storage.exists()) storage.mkdir();
+			if(!storagePeople.exists()) storagePeople.createNewFile();
+			if(!storageMachine.exists()) storageMachine.createNewFile();
+			if(!storageMineral.exists()) storageMineral.createNewFile();
+		}
+		catch(IOException e) {
+			e.printStackTrace(FileHolder.getExportCrashReport());
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 *
@@ -34,6 +53,7 @@ public class FileChecker {
 			return new JsonStreamParser(new FileReader(setting)).next().getAsJsonObject().get("play").getAsBoolean();
 		}
 		catch(FileNotFoundException e) {
+			e.printStackTrace(FileHolder.getExportCrashReport());
 			e.printStackTrace();
 		}
 		return false;
@@ -41,8 +61,8 @@ public class FileChecker {
 	
 	public void createFiles() throws IOException {
 		Random seedRandom = new Random();
-		long mapSeed = seedRandom.nextLong();
-		long chestSeed = seedRandom.nextLong();
+		int mapSeed = seedRandom.nextInt();
+		int chestSeed = seedRandom.nextInt();
 		addJsonToFile("{\"play\":true,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0,\"mapSeed\":" + mapSeed + ",\"chestSeed\":" + chestSeed + "}}", setting);
 		addJsonToFile("[]", map);
 		addJsonToFile("{\"money\":100,\"unlockItemType\":[-1],\"bluePrintId\":[0,6,12,18,24,30]}", shop);
@@ -58,13 +78,11 @@ public class FileChecker {
 	}
 	
 	private void addJsonToFile(String json, File file) throws IOException {
-		json = new String(StandardCharsets.UTF_8.encode(StandardCharsets.ISO_8859_1.decode(ByteBuffer.wrap(json.getBytes()))).array());
-		String to = new Gson().newBuilder().setPrettyPrinting().create().toJson(new JsonStreamParser(json).next());
-		FileOutputStream fos = new FileOutputStream(file);
-		for(char c : to.toCharArray()) {
-			fos.write(c);
-		}
-		fos.close();
+		json = new String(json.getBytes(Charset.defaultCharset()));
+		String to = new Gson().toJson(new JsonStreamParser(json).next());
+		BufferedWriter bw = Files.newBufferedWriter(file.toPath());
+		bw.write(to);
+		bw.close();
 	}
 	
 }

@@ -1,12 +1,12 @@
 package hang_up_game.java.window.people;
 
+import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Direct;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.game.MiningMap;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.People;
-import hang_up_game.java.pos.Chunk;
 import hang_up_game.java.window.Constant;
 
 import javax.swing.*;
@@ -73,10 +73,11 @@ public class PeopleMining extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-			FileHolder.storage(mineral, items);
-			FileHolder.changeTools(owner, People.PeopleData.quickData(people, stamina), People.PickaxeData.quickData(pickaxe, damage));
-			mineral.clear();
-			items.clear();
+				FileHolder.storage(mineral, items);
+				FileHolder.changeTools(owner, People.PeopleData.quickData(people, stamina), People.PickaxeData.quickData(pickaxe, damage));
+				mineral.clear();
+				items.clear();
+				Background.startRecover();
 			}
 		});
 		
@@ -175,7 +176,7 @@ public class PeopleMining extends JDialog {
 		}
 	}
 	private int getDelay(int strong) {
-		return 1000 / strong * 100;
+		return 1000 / (strong * 100);
 	}
 	private void postItemMsg(Set<Item> items) {
 		if(items.size() == 0) return;
