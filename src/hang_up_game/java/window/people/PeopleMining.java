@@ -4,6 +4,7 @@ import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Direct;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.game.MiningMap;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.People;
@@ -46,6 +47,7 @@ public class PeopleMining extends JDialog {
 	
 	public PeopleMining(PeopleDetail owner, People.PeopleData people, People.PickaxeData pickaxe, People.BagData bag) {
 		super(owner.getOwner(), true);
+		Log.d("peopleMining panel", "init");
 		//init screen
 		setTitle("人工挖礦");
 		setBounds(Constant.getMiddleWindowRectangle(500, 500));
@@ -73,6 +75,7 @@ public class PeopleMining extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
+				Log.d("peopleMining panel", "close");
 				FileHolder.storage(mineral, items);
 				FileHolder.changeTools(owner, People.PeopleData.quickData(people, stamina), People.PickaxeData.quickData(pickaxe, damage));
 				mineral.clear();
@@ -108,6 +111,7 @@ public class PeopleMining extends JDialog {
 		if(!checkMining(pickaxe, bag)) {
 			return;
 		}
+		Log.d("peopleMining panel", "mining with time:" + getDelay(people.strong));
 		appendTextWithBlackAndNewLine("開始挖掘礦物，預計挖掘時間: " + (getDelay(people.strong) / 1000.0) + "秒");
 		countDown(needLock, getDelay(people.strong), d, people, pickaxe, bag);
 	}
@@ -116,6 +120,9 @@ public class PeopleMining extends JDialog {
 		Set<Item> itemGet = MiningMap.findItem(chunkX, chunkY, blockInChunkX,blockInChunkY);
 		dealMineral(m, people, pickaxe);
 		postItemMsg(itemGet);
+		if(!itemGet.isEmpty()) {
+			Log.i("peopleMining panel", "get " + itemGet.size() + " item(s)");
+		}
 		items.addAll(itemGet);
 		forward(d);
 		appendTextWithNewLine(status(people, pickaxe, bag), Status);
@@ -162,6 +169,7 @@ public class PeopleMining extends JDialog {
 	}
 	private void dealMineral(Mineral m, People.PeopleData people, People.PickaxeData pickaxe) {
 		if(pickaxe.level >= m.level) {
+			Log.i("peopleMining panel", "get " + m.name());
 			int damage = Mineral.getHighestLevel() - pickaxe.level + m.level;
 			this.damage += damage;
 			this.stamina -= 10;
@@ -172,6 +180,7 @@ public class PeopleMining extends JDialog {
 			FileHolder.people.addPeople(People.PeopleData.quickData(people, this.stamina));
 		}
 		else {
+			Log.i("peopleMining panel", "find " + m.name() + "but level too high");
 			appendTextWithNewLine("你找到了" + m.chinese + "，但你挖不起來", Error);
 		}
 	}
@@ -190,6 +199,7 @@ public class PeopleMining extends JDialog {
 		appendTextWithNewLine(sb.toString(), Get_Part);
 	}
 	private void miningInit(People.PeopleData people, People.PickaxeData pickaxe, People.BagData bag) {
+		Log.i("peopleMining panel", "mining init");
 		chunkX = 0;
 		chunkY = 0;
 		blockInChunkX = 0;

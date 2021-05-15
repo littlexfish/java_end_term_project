@@ -1,5 +1,7 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.io.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,10 @@ public class Constant {
 	public static final String detail = "<html><center>版本: beta 1.0<br>製作: Little Fish<br>Github: " + github + "(點擊以複製)</center></html>";
 	public static final Image icon = getImage("icon");
 	public static final String ApplicationName = "Miner";
+	
+	static {
+		Log.d("constant", "init");
+	}
 	
 	public static Point getMiddleWindowPoint(int width, int height) {
 		Point p = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();

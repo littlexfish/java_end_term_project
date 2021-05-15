@@ -113,11 +113,13 @@ public class Background {
 	}
 	public static void addMachineMiner(MachineMiner mm) {
 		synchronized(machineLock) {
+			Log.d("background", "add machine with id:" + mm.getId());
 			machines.put(mm, new long[] {System.currentTimeMillis(), getDelay(mm.strong())});
 		}
 	}
 	public static void returnMachineMiner(MachineMiner mm) {
 		synchronized(machineLock) {
+			Log.d("background", "return machine with id:" + mm.getId());
 			machines.remove(mm);
 			FileHolder.miningData.releaseMachine(mm.getId());
 			Set<Mineral> ms = mm.getMineral().keySet();
@@ -160,23 +162,28 @@ public class Background {
 	}
 	public static void startRecover() {
 		synchronized(recoverLock) {
+			Log.d("background", "start recover");
 			recoverLock.notify();
 			recover = true;
 		}
 	}
 	public static void stopRecover() {
+		Log.d("background", "stop recover");
 		recover = false;
 	}
 	public static void startCharge() {
 		synchronized(chargeLock) {
+			Log.d("background", "start charge");
 			chargeLock.notify();
 			charge = true;
 		}
 	}
 	public static void stopCharge() {
+		Log.d("background", "stop charge");
 		charge = false;
 	}
 	public static void makeSureBackground(GameFrame gf) {
+		Log.d("background", "init");
 		try {
 			minimize = new Minimize(gf);
 		}

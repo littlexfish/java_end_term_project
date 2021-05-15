@@ -2,6 +2,7 @@ package hang_up_game.java.window.machine;
 
 import hang_up_game.java.game.Background;
 import hang_up_game.java.game.MachineMiner;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.GameFrame;
 import hang_up_game.java.window.WarningWindow;
 
@@ -16,6 +17,7 @@ public class MachineDetail extends JPanel {
 	private final GameFrame parent;
 	
 	public MachineDetail(GameFrame window) {
+		Log.d("machineDetail panel", "init");
 		parent = window;
 		
 		on_air = Background.getAllMinerOnline();

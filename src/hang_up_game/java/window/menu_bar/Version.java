@@ -1,6 +1,7 @@
 package hang_up_game.java.window.menu_bar;
 
 import hang_up_game.java.game.Background;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.Constant;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ public class Version extends JDialog {
 	
 	public Version(JFrame owner) {
 		super(owner, true);
+		Log.d("machineDetail panel", "init");
 		
 		setTitle("關於");
 		setBounds(Constant.getMiddleWindowRectangle(500, 150));

@@ -1,5 +1,6 @@
 package hang_up_game.java.window.shop;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.Constant;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class ConfirmSell extends JDialog {
 	
 	public ConfirmSell(JFrame owner, int price) {
 		super(owner, true);
+		Log.d("confirmSell", "init with price:" + price);
 		setBounds(Constant.getMiddleWindowRectangle(100, 100));
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		

@@ -1,5 +1,6 @@
 package hang_up_game.java.window.shop;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 
@@ -14,6 +15,7 @@ public class ItemSell extends JPanel {
 	private final JFrame frame;
 	
 	public ItemSell(JFrame f) {
+		Log.d("itemSell", "init");
 		frame = f;
 		
 		setLayout(new BorderLayout(5, 5));

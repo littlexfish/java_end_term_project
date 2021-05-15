@@ -1,12 +1,14 @@
 package hang_up_game.java.window.shop;
 
+import hang_up_game.java.io.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Buy extends JPanel {
 	
 	public Buy(JFrame gf) {
-		
+		Log.d("buy", "init");
 		setLayout(new BorderLayout(5, 5));
 		
 		JTabbedPane tabPanel = new JTabbedPane();

@@ -3,6 +3,7 @@ package hang_up_game.java.window.crafting;
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
 import hang_up_game.java.game.Mineral;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class FixPanel extends JPanel {
 	
 	public FixPanel() {
+		Log.d("fix panel", "init");
 		setLayout(new BorderLayout(5, 5));
 		
 		JLabel des = new JLabel();

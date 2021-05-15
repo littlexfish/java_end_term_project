@@ -9,8 +9,9 @@ public class Minimize {
 	private TrayIcon ti;
 	
 	public Minimize(GameFrame gf) throws AWTException {
+		Log.d("minimize", "init");
 		if(!SystemTray.isSupported()) {
-			System.err.println("system tray not support");
+			Log.d("minimize", "system tray not support");
 			return;
 		}
 		

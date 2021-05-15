@@ -14,6 +14,7 @@ public class GameExitDialog extends JDialog {
 	
 	public GameExitDialog(JFrame owner) {
 		super(owner, true);
+		Log.d("gameExitDialog", "init");
 		setTitle("離開");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(Constant.getMiddleWindowRectangle(250, 150));
@@ -65,7 +66,7 @@ public class GameExitDialog extends JDialog {
 	}
 	
 	private void backToGame() {
-		Log.i("exit window", "close");
+		Log.d("gameExitDialog", "close");
 		dispose();
 	}
 	

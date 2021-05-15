@@ -1,5 +1,6 @@
 package hang_up_game.java.window.menu_bar;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.Constant;
 
 import javax.swing.*;
@@ -18,7 +19,9 @@ public class Manual extends JFrame {
 	private int index = 0;
 	
 	public Manual() {
+		Log.d("manual panel", "init");
 		//add image
+		Log.d("manual panel", "manual image init");
 		images.add(Constant.getIcon("manual/0"));
 		images.add(Constant.getIcon("manual/1"));
 		images.add(Constant.getIcon("manual/2"));
@@ -49,6 +52,7 @@ public class Manual extends JFrame {
 					ft = System.currentTimeMillis();
 					isReset = false;
 					clickCount = 0;
+					Log.d("manual panel", "egg reset");
 				}
 				if((System.currentTimeMillis() - ft) > 500) {
 					isReset = true;
@@ -80,7 +84,10 @@ public class Manual extends JFrame {
 				}
 				else {
 					ft = System.currentTimeMillis();
-					if(!eggThread.isAlive()) eggThread.start();
+					if(!eggThread.isAlive()) {
+						Log.d("manual panel", "egg thread start");
+						eggThread.start();
+					}
 					isStop = false;
 					clickCount++;
 				}

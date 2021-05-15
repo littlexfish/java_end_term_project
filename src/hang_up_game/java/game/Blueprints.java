@@ -1,5 +1,6 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class Blueprints {
 	public static final ArrayList<Blueprint> blueprints = new ArrayList<>(36);
 	
 	static {
+		Log.d("blueprint", "init blueprint");
 		//pickaxe
 		new Blueprint(0, 10);
 		new Blueprint(1, 50);

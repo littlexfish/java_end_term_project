@@ -22,6 +22,7 @@ public class GameFrame extends JFrame {
 	public LinkedList<String> keyList;
 	
 	public GameFrame() {
+		Log.d("gameFrame", "init");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconImage(Constant.icon);
 		
@@ -77,6 +78,7 @@ public class GameFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				Log.d("gameFrame", "press close button");
 				synchronized(backLock) {
 					if(keyList.size() > 1) { // not main menu
 						Log.i("game", "back to last panel");
@@ -92,12 +94,13 @@ public class GameFrame extends JFrame {
 			@Override
 			public void windowIconified(WindowEvent e) {
 				dispose();
-				Log.i("game", "minimized");
+				Log.d("game", "minimized");
 				Background.throwMsg("最小化", "遊戲已隱藏至圖示");
 			}
 			
 		});
 		
+		Log.d("gameFrame", "make sure background");
 		Background.makeSureBackground(this);
 		
 	}
@@ -109,6 +112,7 @@ public class GameFrame extends JFrame {
 	
 	public void setPanel(JPanel p, String title, int width, int height) {
 		synchronized(backLock) {
+			Log.d("gameFrame", "set panel:" + p.getClass().getName());
 			setTitle(title);
 			setContentPane(p);
 			pack();
@@ -120,6 +124,7 @@ public class GameFrame extends JFrame {
 	
 	public void setPanel(JPanel p, String title) {
 		synchronized(backLock) {
+			Log.d("gameFrame", "set panel:" + p.getClass().getName());
 //			if(p instanceof Crafting) {
 //				Background.startCharge();
 //			}
@@ -137,6 +142,7 @@ public class GameFrame extends JFrame {
 //		if(panelList.get(getTitle()).pane instanceof Crafting) {
 //			Background.stopCharge();
 //		}
+		Log.d("gameFrame", "back panel");
 		panelList.remove(getTitle());
 		keyList.removeLast();
 		PanelCache pc = panelList.get(keyList.getLast());
@@ -148,6 +154,7 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void onExit() {
+		Log.d("gameFrame", "on exit");
 		Background.stopCharge();
 		Background.stopRecover();
 		GameExitDialog ged = new GameExitDialog(this);

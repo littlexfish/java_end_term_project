@@ -2,6 +2,7 @@ package hang_up_game.java.window.machine;
 
 import hang_up_game.java.game.Background;
 import hang_up_game.java.game.MachineMiner;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.Plugin;
 import hang_up_game.java.io.data.storage.Machine;
@@ -23,6 +24,7 @@ public class MachineGo extends JPanel {
 	private final JLabel pluginText = new JLabel();
 	
 	public MachineGo(GameFrame gf, MachineDetail md) {
+		Log.d("machineGo panel", "init");
 		detail = md;
 		frame = gf;
 		

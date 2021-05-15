@@ -2,6 +2,7 @@ package hang_up_game.java.io.data;
 
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.Mineral;
@@ -27,6 +28,7 @@ public class FileHolder {
 	public static People people;
 	
 	static {
+		Log.d("file", "files init");
 		try {
 			config = new Config();
 			map = new Map();
@@ -50,6 +52,7 @@ public class FileHolder {
 	
 	public static void saveFile() throws IOException {
 		for(Saveable s : saver) {
+			Log.d("saver", s.toString());
 			s.save();
 		}
 	}
@@ -58,7 +61,6 @@ public class FileHolder {
 		ArrayList<Item> items = new ArrayList<>();
 		items.addAll(people.getAllData());
 		items.addAll(machine.getAllPart());
-		
 		return items;
 	}
 	
@@ -168,6 +170,7 @@ public class FileHolder {
 			}
 		}
 		try {
+			Log.d("file", "get crash file with path:" + f.getPath());
 			return new PrintStream(f);
 		}
 		catch(FileNotFoundException e) {

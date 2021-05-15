@@ -1,5 +1,6 @@
 package hang_up_game.java.game;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.pos.Block;
@@ -14,6 +15,11 @@ public class MiningMap {
 	private static final int mapSeed = FileHolder.config.getConfig("gameData/mapSeed", Integer.class);
 	private static final int chestSeed = FileHolder.config.getConfig("gameData/chestSeed", Integer.class);
 	private static final Random mapR = new Random(mapSeed);
+	
+	static {
+		Log.d("mining map", "set map seed:" + mapSeed);
+		Log.d("mining map", "set chest seed" + chestSeed);
+	}
 	
 	public static Mineral getMineral(Chunk chunk) {
 		for(int i = 0;i < chunk.X;i++) {

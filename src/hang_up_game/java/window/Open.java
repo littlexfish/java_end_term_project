@@ -1,5 +1,7 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.io.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,6 +9,7 @@ public class Open extends JFrame {
 
 
     public Open() {
+        Log.d("open", "init");
         setBounds(Constant.getMiddleWindowRectangle(100, 50));
         setUndecorated(true);
         

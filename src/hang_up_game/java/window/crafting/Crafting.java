@@ -1,12 +1,14 @@
 package hang_up_game.java.window.crafting;
 
+import hang_up_game.java.io.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Crafting extends JPanel {
 	
 	public Crafting() {
-		
+		Log.d("crafting panel", "init");
 		setLayout(new BorderLayout(5, 5));
 		
 		JTabbedPane tabPane = new JTabbedPane();

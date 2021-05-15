@@ -2,6 +2,7 @@ package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.WarningWindow;
 
@@ -15,6 +16,7 @@ public class BlueprintPane extends JPanel {
 	private final JFrame frame;
 	
 	public BlueprintPane(JFrame owner) {
+		Log.d("blueprintPane", "init");
 		frame = owner;
 		
 		setLayout(new BorderLayout(5, 5));

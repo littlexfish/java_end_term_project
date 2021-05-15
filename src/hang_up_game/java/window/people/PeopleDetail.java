@@ -1,6 +1,7 @@
 package hang_up_game.java.window.people;
 
 import hang_up_game.java.game.Background;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.People;
 
@@ -24,6 +25,7 @@ public class PeopleDetail extends JPanel {
 	private final JFrame parent;
 	
 	public PeopleDetail(JFrame window) {
+		Log.d("peopleDetail panel", "init");
 		parent = window;
 		setLayout(new BorderLayout());
 		

@@ -1,6 +1,7 @@
 package hang_up_game.java.window.storage;
 
 import hang_up_game.java.game.Mineral;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 
@@ -12,7 +13,7 @@ import java.util.EnumMap;
 public class Storage extends JPanel {
 
 	public Storage() {
-		
+		Log.d("storage", "init");
 		setLayout(new BorderLayout(5, 5));
 		
 		JPanel center = new JPanel(new GridLayout(1, 2, 5, 5));

@@ -1,6 +1,7 @@
 package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Mineral;
+import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class MaterialSell extends JPanel {
 	private final JFrame frame;
 	
 	public MaterialSell(JFrame f) {
+		Log.d("materialSell", "init");
 		frame = f;
 		EnumMap<Mineral, Integer> minerals = FileHolder.mineral.getAllMineral();
 		setLayout(new BorderLayout(5, 5));

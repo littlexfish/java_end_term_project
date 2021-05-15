@@ -1,6 +1,7 @@
 package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Item;
+import hang_up_game.java.io.Log;
 
 import javax.swing.*;
 
@@ -10,6 +11,7 @@ public class ItemHolder extends JButton {
 	
 	public ItemHolder(Item item) {
 		super("<html>" + item.name + "<br>$" + item.getBuyPrice() + "</html>");
+		Log.d("itemHolder", "init with item:" + item.name);
 		this.item = item;
 	}
 	

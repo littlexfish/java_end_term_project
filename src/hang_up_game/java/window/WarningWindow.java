@@ -25,7 +25,7 @@ public class WarningWindow extends JDialog {
 	public int delay;
 	
 	public WarningWindow(String title, String msg, int dialogType, int closeType, int time) {
-		Log.i("warning panel", "warning " + title + ", msg: " + msg);
+		Log.d("warning panel", "warning " + title + ", msg: " + msg);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(closeType);
 		setTitle(title);

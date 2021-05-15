@@ -1,5 +1,6 @@
 package hang_up_game.java.window;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.crafting.Crafting;
 import hang_up_game.java.window.shop.Shop;
 import hang_up_game.java.window.storage.Storage;
@@ -12,6 +13,7 @@ public class MainMenu extends JPanel {
 	private final GameFrame frame;
 	
 	public MainMenu(GameFrame g) {
+		Log.d("mainMenu", "init");
 		frame = g;
 		
 		JPanel centerButton = new JPanel(new GridLayout(9, 1, 0, 0));

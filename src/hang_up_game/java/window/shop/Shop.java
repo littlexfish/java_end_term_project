@@ -1,5 +1,6 @@
 package hang_up_game.java.window.shop;
 
+import hang_up_game.java.io.Log;
 import hang_up_game.java.window.GameFrame;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class Shop extends JPanel {
 	private final GameFrame frame;
 	
 	public Shop(GameFrame f) {
+		Log.d("shop", "init");
 		frame = f;
 		
 		JPanel centerButton = new JPanel(new GridLayout(8, 1, 5, 5));
