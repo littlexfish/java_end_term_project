@@ -61,12 +61,13 @@ public class FileChecker {
 	
 	public void createFiles() throws IOException {
 		Random seedRandom = new Random();
-		int mapSeed = seedRandom.nextInt();
-		int chestSeed = seedRandom.nextInt();
+		long mapSeed = seedRandom.nextLong();
+		long chestSeed = seedRandom.nextLong();
+		int strong = 10 + seedRandom.nextInt(91);
 		addJsonToFile("{\"play\":true,\"background\":false,\"notice\":{\"hit\":false,\"lowBattery\":false,\"fullChest\":false},\"gameData\":{\"level\":1,\"exp\":0,\"mapSeed\":" + mapSeed + ",\"chestSeed\":" + chestSeed + "}}", setting);
 		addJsonToFile("[]", map);
 		addJsonToFile("{\"money\":100,\"unlockItemType\":[-1],\"bluePrintId\":[0,6,12,18,24,30]}", shop);
-		addJsonToFile("{\"people\":[{\"name\":\"新手\",\"id\":1,\"maxStamina\":500,\"lastStamina\":500,\"strong\":20,\"skillId\":0," +
+		addJsonToFile("{\"people\":[{\"name\":\"新手\",\"id\":1,\"maxStamina\":500,\"lastStamina\":500,\"strong\":" + strong + ",\"skillId\":0," +
 				"\"skillValue\": []}],\"pickaxe\":[{\"id\":1,\"name\":\"新手稿子\",\"level\":1,\"maxDamage\":500,\"damage\":0}]," +
 				"\"bag\":[{\"id\":1,\"name\":\"新手包包\",\"maxSpace\":20}]}", storagePeople);
 		addJsonToFile("{\"engine\":[],\"head\":[],\"battery\":[],\"chest\":[],\"plugin\":[]}", storageMachine);

@@ -155,7 +155,7 @@ public class Background {
 		}
 	}
 	private static int getDelay(int strong) {
-		return 1000 / (strong * 100);
+		return (int)(1000.0 / strong * 100);
 	}
 	public static Set<MachineMiner> getAllMinerOnline() {
 		return machines.keySet();

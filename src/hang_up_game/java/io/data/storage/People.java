@@ -170,7 +170,7 @@ public class People implements Saveable {
 		for(int i = 0;i < ja.size();i++) {
 			JsonObject jo = ja.get(i).getAsJsonObject();
 			if(jo.get("id").getAsInt() == bagId) {
-				pickaxeData.remove(i);
+				bagData.remove(i);
 				ja.remove(i);
 				break;
 			}

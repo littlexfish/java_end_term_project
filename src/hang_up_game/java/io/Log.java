@@ -29,7 +29,7 @@ public class Log {
 				case 3:
 					if(type.equals(Warning)) return;
 			}
-			System.out.println(type + title + ": " + msg);
+			System.out.println(type + "[" + title + "]: " + msg);
 		}
 	}
 	

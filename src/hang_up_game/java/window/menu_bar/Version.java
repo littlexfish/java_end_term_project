@@ -34,6 +34,7 @@ public class Version extends JDialog {
 					Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection ss = new StringSelection(Constant.github);
 					clip.setContents(ss, null);
+					Log.d("info", "copy \"" + Constant.github + "\" to clipboard");
 					Background.throwMsg("關於", "已複製至剪貼簿");
 				}
 			}

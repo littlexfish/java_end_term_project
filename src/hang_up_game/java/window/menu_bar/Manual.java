@@ -5,6 +5,8 @@ import hang_up_game.java.window.Constant;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class Manual extends JFrame {
@@ -29,6 +31,7 @@ public class Manual extends JFrame {
 		images.add(Constant.getIcon("manual/4"));
 		images.add(Constant.getIcon("manual/5"));
 		images.add(Constant.getIcon("manual/6"));
+		images.add(Constant.getIcon("manual/7"));
 		images.add(Constant.getIcon("manual/egg"));
 		
 		int size = images.size();
@@ -36,6 +39,7 @@ public class Manual extends JFrame {
 		//layout
 		setResizable(false);
 		setTitle("說明");
+		setIconImage(Constant.getImage("help"));
 		setBounds(Constant.getMiddleWindowRectangle(875, 690));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(5, 5));
@@ -54,7 +58,7 @@ public class Manual extends JFrame {
 					clickCount = 0;
 					Log.d("manual panel", "egg reset");
 				}
-				if((System.currentTimeMillis() - ft) > 500) {
+				if((System.currentTimeMillis() - ft) > 1000) {
 					isReset = true;
 				}
 			}
@@ -112,6 +116,14 @@ public class Manual extends JFrame {
 			right.setEnabled(true);
 		});
 		change.add(left, BorderLayout.WEST);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				isStop = true;
+				eggThread.interrupt();
+			}
+		});
 		
 	}
 	

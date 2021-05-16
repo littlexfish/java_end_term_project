@@ -2,7 +2,7 @@ package hang_up_game.java.game;
 
 public enum Mineral {
 	
-	Stone(300, "石頭", 1, 10, 1),
+	Stone(500, "石頭", 1, 10, 1),
 	Copper(50, "銅", 2, 20, 5),
 	Iron(20, "鐵", 3, 20, 10),
 	Silver(10, "銀", 3, 10, 10),
@@ -42,10 +42,9 @@ public enum Mineral {
 	
 	public static Mineral getRandom(int value) {
 		if(value >= getTotalWeight()) throw new IllegalArgumentException("value bigger than total weight");
-		int now = (int)(Math.random() * value);
 		for(Mineral m : Mineral.values()) {
-			if(now >= m.weight) {
-				now -= m.weight;
+			if(value >= m.weight) {
+				value -= m.weight;
 			}
 			else {
 				return m;

@@ -12,20 +12,19 @@ import java.util.Set;
 
 public class MiningMap {
 	
-	private static final int mapSeed = FileHolder.config.getConfig("gameData/mapSeed", Integer.class);
-	private static final int chestSeed = FileHolder.config.getConfig("gameData/chestSeed", Integer.class);
+	private static final long mapSeed = FileHolder.config.getConfig("gameData/mapSeed", Integer.class);
+	private static final long chestSeed = FileHolder.config.getConfig("gameData/chestSeed", Integer.class);
 	private static final Random mapR = new Random(mapSeed);
+	private static final Random chestR = new Random(chestSeed);
 	
 	static {
 		Log.d("mining map", "set map seed:" + mapSeed);
-		Log.d("mining map", "set chest seed" + chestSeed);
+		Log.d("mining map", "set chest seed:" + chestSeed);
 	}
 	
 	public static Mineral getMineral(Chunk chunk) {
-		for(int i = 0;i < chunk.X;i++) {
-			for(int j = 0;j < chunk.Y;i++) {
-				mapR.nextBoolean();
-			}
+		for(int i = 0;i < chunk.X * chunk.Y;i++) {
+			mapR.nextBoolean();
 		}
 		return Mineral.getRandom((int)(mapR.nextDouble() * Mineral.getTotalWeight()));
 	}
@@ -33,38 +32,21 @@ public class MiningMap {
 		return getMineral(new Chunk(chunkX, chunkY));
 	}
 	public static Set<Item> findItem(Block block) {
-		int px;
-		int py;
-		if(block.blockInChunkX == 0) {
-			px = block.chunk.X / (int)(Math.random() * ChestContent.getTotalWeight());
+		int chestC = FileHolder.map.getLastChestCount(block.chunk);
+		if(chestC == -1) {
+			chestC = calChestCount(block.chunk);
+			FileHolder.map.setLastChestCount(block.chunk, chestC);
 		}
-		else {
-			px = block.chunk.X / block.blockInChunkX;
+		else if(chestC == 0) {
+			return new HashSet<>();
 		}
-		if(block.blockInChunkY == 0) {
-			py = block.chunk.Y / (int)(Math.random() * ChestContent.getTotalWeight());
-		}
-		else {
-			py = block.chunk.Y / block.blockInChunkY;
-		}
-		int sum = px + py;
-		if(sum == 0) {
-			sum = (int)(Math.random() * ChestContent.getTotalWeight());
-			if(sum == 0) sum = (int)(Math.random() * ChestContent.getTotalWeight());
-		}
-		int wi = chestSeed / sum;
-		ChestContent cc = ChestContent.getRandom(wi % ChestContent.getTotalWeight());
-		Random r = new Random();
-		int count = cc.minCount + r.nextInt(cc.maxCount - cc.minCount + 1);
+		ChestContent cc = ChestContent.getRandom((int)(chestR.nextDouble() * ChestContent.getTotalWeight()));
+		int count = cc.minCount + chestR.nextInt(cc.maxCount - cc.minCount + 1);
 		Set<Item> items = new HashSet<>(count);
 		for(int i = 0;i < count;i++) {
-			items.add(cc.content[r.nextInt(cc.content.length)]);
+			items.add(cc.content[chestR.nextInt(cc.content.length)]);
 		}
 		if(items.size() != 0) {
-			int chestC = FileHolder.map.getLastChestCount(block.chunk);
-			if(chestC == -1) {
-				chestC = calChestCount(block.chunk);
-			}
 			FileHolder.map.setLastChestCount(block.chunk, chestC - 1);
 		}
 		return items;
@@ -74,9 +56,9 @@ public class MiningMap {
 		int multi = chunk.X * chunk.Y;
 		int tmpC = multi * 10 % maxChestCount;
 		if(tmpC == 0) {
-			tmpC = chestSeed  % maxChestCount;
+			tmpC = (int)(chestSeed  % maxChestCount);
 		}
-		return chestSeed % tmpC;
+		return (int)(chestSeed % tmpC);
 	}
 	public static Set<Item> findItem(Chunk chunk, int blockInChunkX, int blockInChunkY) {
 		return findItem(new Block(chunk, blockInChunkX, blockInChunkY));

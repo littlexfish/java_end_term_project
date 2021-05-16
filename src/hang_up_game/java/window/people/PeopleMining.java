@@ -112,7 +112,7 @@ public class PeopleMining extends JDialog {
 			return;
 		}
 		Log.d("peopleMining panel", "mining with time:" + getDelay(people.strong));
-		appendTextWithBlackAndNewLine("開始挖掘礦物，預計挖掘時間: " + (getDelay(people.strong) / 1000.0) + "秒");
+		appendTextWithBlackAndNewLine("開始挖掘礦物，預計挖掘時間: " + String.format("%.2f", (getDelay(people.strong) / 1000.0)) + "秒");
 		countDown(needLock, getDelay(people.strong), d, people, pickaxe, bag);
 	}
 	private void doMine(Direct d, People.PeopleData people, People.PickaxeData pickaxe, People.BagData bag) {
@@ -180,12 +180,12 @@ public class PeopleMining extends JDialog {
 			FileHolder.people.addPeople(People.PeopleData.quickData(people, this.stamina));
 		}
 		else {
-			Log.i("peopleMining panel", "find " + m.name() + "but level too high");
+			Log.i("peopleMining panel", "find " + m.name() + " but level too high");
 			appendTextWithNewLine("你找到了" + m.chinese + "，但你挖不起來", Error);
 		}
 	}
 	private int getDelay(int strong) {
-		return 1000 / (strong * 100);
+		return (int)(1000.0 / strong * 100);
 	}
 	private void postItemMsg(Set<Item> items) {
 		if(items.size() == 0) return;

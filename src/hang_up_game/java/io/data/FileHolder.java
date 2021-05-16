@@ -152,17 +152,25 @@ public class FileHolder {
 		pd.pickaxeLabel.setText(pd.toHtml(pd.pickaxeList.getSelectedValue().list()));
 	}
 	public static PrintStream getExportCrashReport() {
+		Log.d("crash", "start create crash file");
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
 		File crash = new File("miner/crash-report");
-		if(!crash.exists()) crash.mkdir();
+		Log.d("crash", "check dir");
+		if(!crash.exists()) {
+			crash.mkdir();
+			Log.d("crash", "create dir");
+		}
+		Log.d("crash", "format file name");
 		File f = new File("miner/crash-report/" + sdf.format(date) + ".crash");
 		if(!f.exists()) {
 			try {
+				Log.d("crash", "create file");
 				//noinspection ResultOfMethodCallIgnored
 				f.createNewFile();
 			}
 			catch(IOException e) {
+				Log.d("crash", "create file error with exception:" + e.toString());
 				//創建檔案錯誤
 				e.printStackTrace();
 				//will throw NullPointException
