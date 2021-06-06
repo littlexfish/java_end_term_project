@@ -223,10 +223,10 @@ public class FileHolder {
 		File directory = new File("./miner/extract");
 		if(!directory.exists()) directory.mkdir();
 		int extN = 0;
-		File out = new File("./miner/extract/extract.miner");
+		File out = new File("miner/extract/extract.miner");
 		while(out.exists()) {
 			extN++;
-			out = new File("./miner/extract/extract(" + extN + ").miner");
+			out = new File("miner/extract/extract(" + extN + ").miner");
 		}
 		out.createNewFile();
 		return out;
