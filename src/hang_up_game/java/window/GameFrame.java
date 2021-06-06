@@ -54,9 +54,17 @@ public class GameFrame extends JFrame {
 		});
 		file.add(save);
 		
-		JMenuItem export = new JMenuItem("匯出(尚未實作)", Constant.getIcon("export", 20, 20));
+		JMenuItem export = new JMenuItem("匯出", Constant.getIcon("export", 20, 20));
 		export.setFont(new Font("SimSun", Font.PLAIN, 15));
-		export.setEnabled(false);
+		export.addActionListener(e -> {
+			try {
+				FileHolder.saveFile();
+				FileHolder.extract();
+			}
+			catch(IOException ioException) {
+				ioException.printStackTrace();
+			}
+		});
 		file.add(export);
 		
 		JMenu help = new JMenu("幫助");

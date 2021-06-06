@@ -13,7 +13,7 @@ import java.util.EnumMap;
 
 public class Mineral implements Saveable {
 	
-	private final File storageMineral = new File("./miner/storage/mineral.json");
+	public final File storageMineral = new File("./miner/storage/mineral.json");
 	private final JsonObject mineralJson = new JsonStreamParser(Files.newBufferedReader(storageMineral.toPath())).next().getAsJsonObject();
 	
 	public Mineral() throws IOException { }

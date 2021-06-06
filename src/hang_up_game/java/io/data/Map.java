@@ -14,7 +14,7 @@ import java.nio.file.Files;
 
 public class Map implements Saveable {
 	
-	private final File map = new File("./miner/map.json");
+	public final File map = new File("./miner/map.json");
 	private final JsonArray mapJson = new JsonStreamParser(Files.newBufferedReader(map.toPath())).next().getAsJsonArray();
 	
 	public Map() throws IOException {

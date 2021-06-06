@@ -1,5 +1,6 @@
 package hang_up_game.java.io.data;
 
+import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
 import hang_up_game.java.io.Log;
@@ -10,11 +11,14 @@ import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.people.PeopleDetail;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class FileHolder {
 	
@@ -187,6 +191,45 @@ public class FileHolder {
 		}
 		//will throw NullPointException
 		return null;
+	}
+	
+	public static void extract() throws IOException {
+		File ext = getExtractFile();
+		Log.i("extract", "path: " + ext.getAbsolutePath());
+		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(ext));
+		writeToZip(zos, "miner/storage/machine.json", machine.storageMachine);
+		writeToZip(zos, "miner/storage/mineral.json", mineral.storageMineral);
+		writeToZip(zos, "miner/storage/people.json", people.storagePeople);
+		writeToZip(zos, "miner/config.json", config.config);
+		writeToZip(zos, "miner/map.json", map.map);
+		writeToZip(zos, "miner/shop.json", shop.shop);
+		zos.close();
+		Log.i("extract", "extract successful");
+		Background.throwMsg("匯出", "匯出成功，檔案位置: " + ext.getAbsolutePath());
+	}
+	private static void writeToZip(ZipOutputStream zos, String entryName, File file) throws IOException {
+		Log.d("extract", entryName);
+		ZipEntry ze = new ZipEntry(entryName);
+		BufferedReader br = Files.newBufferedReader(file.toPath());
+		zos.putNextEntry(ze);
+		int c = br.read();
+		while(c != -1) {
+			zos.write(c);
+			c = br.read();
+		}
+		br.close();
+	}
+	private static File getExtractFile() throws IOException {
+		File directory = new File("./miner/extract");
+		if(!directory.exists()) directory.mkdir();
+		int extN = 0;
+		File out = new File("./miner/extract/extract.miner");
+		while(out.exists()) {
+			extN++;
+			out = new File("./miner/extract/extract(" + extN + ").miner");
+		}
+		out.createNewFile();
+		return out;
 	}
 	
 }

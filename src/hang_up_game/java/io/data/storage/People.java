@@ -17,7 +17,7 @@ import java.util.Random;
 @SuppressWarnings("unused")
 public class People implements Saveable {
 	
-	private final File storagePeople = new File("./miner/storage/people.json");
+	public final File storagePeople = new File("./miner/storage/people.json");
 	private final JsonObject peopleJson = new JsonStreamParser(Files.newBufferedReader(storagePeople.toPath())).next().getAsJsonObject();
 	public final LinkedList<PeopleData> peopleData = new LinkedList<>();
 	public final LinkedList<PickaxeData> pickaxeData = new LinkedList<>();

@@ -11,7 +11,7 @@ import java.nio.file.Files;
 
 public class Config implements Saveable {
 	
-	private final File config = new File("./miner/config.json");
+	public final File config = new File("./miner/config.json");
 	private final JsonElement configJson = new JsonStreamParser(Files.newBufferedReader(config.toPath())).next();
 	
 	public Config() throws IOException {

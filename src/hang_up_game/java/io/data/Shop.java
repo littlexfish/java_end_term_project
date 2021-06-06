@@ -13,7 +13,7 @@ import java.nio.file.Files;
 
 public class Shop implements Saveable {
 	
-	private final File shop = new File("./miner/shop.json");
+	public final File shop = new File("./miner/shop.json");
 	private final JsonObject shopJson = new JsonStreamParser(Files.newBufferedReader(shop.toPath())).next().getAsJsonObject();
 	
 	public Shop() throws IOException {

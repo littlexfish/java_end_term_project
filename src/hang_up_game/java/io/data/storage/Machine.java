@@ -17,7 +17,7 @@ import java.util.*;
 
 public class Machine implements Saveable {
 	
-	private final File storageMachine = new File("./miner/storage/machine.json");
+	public final File storageMachine = new File("./miner/storage/machine.json");
 	private final JsonObject machineJson = new JsonStreamParser(Files.newBufferedReader(storageMachine.toPath())).next().getAsJsonObject();
 	private final LinkedList<Engine> engines = new LinkedList<>();
 	private final LinkedList<Head> heads = new LinkedList<>();
