@@ -1,11 +1,11 @@
 package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Item;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.WarningWindow;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonStreamParser;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.io.data.FileHolder;
+import org.lf.logger.Log;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -60,6 +61,7 @@ public class FileChecker {
 	}
 	
 	public void createFiles() throws IOException {
+		Log.d("file", "create new files...");
 		Random seedRandom = new Random();
 		long mapSeed = seedRandom.nextLong();
 		long chestSeed = seedRandom.nextLong();

@@ -1,15 +1,13 @@
 package hang_up_game.java.window.menu_bar;
 
 import hang_up_game.java.game.Background;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.window.Constant;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

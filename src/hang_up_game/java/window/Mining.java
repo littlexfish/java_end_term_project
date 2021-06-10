@@ -1,8 +1,8 @@
 package hang_up_game.java.window;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.window.machine.MachineDetail;
 import hang_up_game.java.window.people.PeopleDetail;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,11 +4,11 @@ import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Direct;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.game.MiningMap;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.Constant;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

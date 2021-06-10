@@ -3,12 +3,12 @@ package hang_up_game.java.io.data;
 import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.Mineral;
 import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.people.PeopleDetail;
+import org.lf.logger.Log;
 
 import java.io.*;
 import java.nio.file.Files;

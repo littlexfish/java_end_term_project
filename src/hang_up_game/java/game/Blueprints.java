@@ -1,7 +1,7 @@
 package hang_up_game.java.game;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
+import org.lf.logger.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

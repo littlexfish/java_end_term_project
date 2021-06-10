@@ -1,9 +1,9 @@
 package hang_up_game.java.window;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.window.crafting.Crafting;
 import hang_up_game.java.window.shop.Shop;
 import hang_up_game.java.window.storage.Storage;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -2,18 +2,15 @@ package hang_up_game;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import hang_up_game.java.io.FileChecker;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.GameFrame;
 import hang_up_game.java.window.MainMenu;
 import hang_up_game.java.window.Open;
 import hang_up_game.java.window.menu_bar.Manual;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Main {
 	
@@ -22,19 +19,19 @@ public class Main {
 		if(args.length > 0) {
 			for(String s : args) {
 				if("DEBUG".equals(s.toUpperCase())) {
-					Log.setLogType(Log.DEBUG);
+					Log.setOutputType(Log.Type.DEBUG);
 					break;
 				}
 				if("INFO".equals(s.toUpperCase())) {
-					Log.setLogType(Log.INFO);
+					Log.setOutputType(Log.Type.INFO);
 					break;
 				}
 				if("WARNING".equals(s.toUpperCase())) {
-					Log.setLogType(Log.WARNING);
+					Log.setOutputType(Log.Type.WARNING);
 					break;
 				}
 				if("ERROR".equals(s.toUpperCase())) {
-					Log.setLogType(Log.ERROR);
+					Log.setOutputType(Log.Type.ERROR);
 					break;
 				}
 			}

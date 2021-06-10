@@ -2,9 +2,9 @@ package hang_up_game.java.window.shop;
 
 import hang_up_game.java.game.Blueprint;
 import hang_up_game.java.game.Blueprints;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.WarningWindow;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,10 +1,10 @@
 package hang_up_game.java.game;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.pos.Block;
 import hang_up_game.java.pos.Chunk;
+import org.lf.logger.Log;
 
 import java.util.HashSet;
 import java.util.Random;

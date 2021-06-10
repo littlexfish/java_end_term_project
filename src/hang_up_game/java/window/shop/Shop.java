@@ -1,7 +1,7 @@
 package hang_up_game.java.window.shop;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.window.GameFrame;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,9 @@
 package hang_up_game.java.window.storage;
 
 import hang_up_game.java.game.Mineral;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,9 +4,9 @@ import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Direct;
 import hang_up_game.java.game.MachineMiner;
 import hang_up_game.java.game.Mineral;
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.window.GameFrame;
+import org.lf.logger.Log;
 
 import javax.swing.*;
 import java.awt.*;

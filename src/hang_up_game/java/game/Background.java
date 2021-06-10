@@ -1,12 +1,12 @@
 package hang_up_game.java.game;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.io.data.storage.People;
 import hang_up_game.java.window.GameFrame;
 import hang_up_game.java.window.Minimize;
+import org.lf.logger.Log;
 
 import java.awt.*;
 import java.util.ArrayList;

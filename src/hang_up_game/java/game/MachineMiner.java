@@ -1,12 +1,12 @@
 package hang_up_game.java.game;
 
-import hang_up_game.java.io.Log;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.io.data.MiningData;
 import hang_up_game.java.io.data.Plugin;
 import hang_up_game.java.io.data.storage.Item;
 import hang_up_game.java.io.data.storage.Machine;
 import hang_up_game.java.window.Constant;
+import org.lf.logger.Log;
 
 import java.io.Serializable;
 import java.util.*;
