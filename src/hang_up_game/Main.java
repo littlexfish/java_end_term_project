@@ -4,6 +4,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import hang_up_game.java.io.FileChecker;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.GameFrame;
+import hang_up_game.java.window.ImportFile;
 import hang_up_game.java.window.MainMenu;
 import hang_up_game.java.window.Open;
 import hang_up_game.java.window.menu_bar.Manual;
@@ -71,13 +72,29 @@ public class Main {
 	}
 	
 	public static void firstPlay(Open f, FileChecker fc) {
-		try {
-			Log.i("main", "create game needed files");
-			fc.createFiles();
+		Log.i("main", "check any file can import...");
+		if(fc.checkImport()) {
+			Log.i("import", "found file can import");
+			if(ImportFile.openDialog(f, fc) == ImportFile.Cancel) {
+				try {
+					Log.i("main", "create game needed files");
+					fc.createFiles();
+				}
+				catch(IOException e) {
+					e.printStackTrace(FileHolder.getExportCrashReport());
+					e.printStackTrace();
+				}
+			}
 		}
-		catch(IOException e) {
-			e.printStackTrace(FileHolder.getExportCrashReport());
-			e.printStackTrace();
+		else {
+			try {
+				Log.i("main", "create game needed files");
+				fc.createFiles();
+			}
+			catch(IOException e) {
+				e.printStackTrace(FileHolder.getExportCrashReport());
+				e.printStackTrace();
+			}
 		}
 		f.dispose();
 	}

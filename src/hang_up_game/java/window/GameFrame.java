@@ -56,13 +56,14 @@ public class GameFrame extends JFrame {
 		JMenuItem export = new JMenuItem("匯出", Constant.getIcon("export", 20, 20));
 		export.setFont(new Font("SimSun", Font.PLAIN, 15));
 		export.addActionListener(e -> {
-			try {
-				FileHolder.saveFile();
-				FileHolder.extract();
-			}
-			catch(IOException ioException) {
-				ioException.printStackTrace();
-			}
+//			try {
+//				FileHolder.saveFile();
+//				FileHolder.extract();
+//			}
+//			catch(IOException ioException) {
+//				ioException.printStackTrace();
+//			}
+			Background.throwMsg("匯出", "檔案匯入有些許問題，暫取消此功能");
 		});
 		file.add(export);
 		

@@ -1,7 +1,7 @@
 package hang_up_game.java.io;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonStreamParser;
+import com.google.gson.*;
+import hang_up_game.java.game.Background;
 import hang_up_game.java.game.Mineral;
 import hang_up_game.java.io.data.FileHolder;
 import org.lf.logger.Log;
@@ -12,6 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class FileChecker {
 	
@@ -57,6 +59,87 @@ public class FileChecker {
 			e.printStackTrace(FileHolder.getExportCrashReport());
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public boolean checkImport() {
+//		File dir = new File("./");
+//		File[] files = dir.listFiles((dir1, name) -> {
+//			if(name.endsWith(".miner")) return true;
+//			return false;
+//		});
+//		assert files != null; //will not occur
+//		return files.length >= 1;
+		return false; //TODO: original zip from java not support chinese
+	}
+	
+	public boolean checkImportIsOnlyOne() {
+		File dir = new File("./");
+		File[] files = dir.listFiles((dir1, name) -> {
+			if(name.endsWith(".miner")) return true;
+			return false;
+		});
+		assert files != null; //will not occur
+		return files.length > 1;
+	}
+	
+	public File getImport(int index) {
+		File dir = new File("./");
+		File[] files = dir.listFiles(pathname -> {
+			if(pathname.getPath().endsWith(".miner")) return true;
+			return false;
+		});
+		assert files != null; //will not occur
+		return files[index];
+	}
+	
+	public boolean extractZIP(File minerFile) throws IOException {
+		if(!minerFile.exists() || !minerFile.getName().endsWith(".miner")) throw new IllegalArgumentException("not miner file");
+		Log.i("import", "path: " + minerFile.getAbsolutePath());
+		ZipFile zip = new ZipFile(minerFile);
+		boolean isAnyFail = false;
+		if(!writeToFile(zip, "miner/storage/machine.json", new File("miner/storage/machine.json"), new JsonObject()))
+			isAnyFail = true;
+		if(!writeToFile(zip, "miner/storage/mineral.json", new File("miner/storage/mineral.json"), new JsonObject()))
+			isAnyFail = true;
+		if(!writeToFile(zip, "miner/storage/people.json", new File("miner/storage/people.json"), new JsonObject()))
+			isAnyFail = true;
+		if(!writeToFile(zip, "miner/config.json", new File("miner/config.json"), new JsonObject()))
+			isAnyFail = true;
+		if(!writeToFile(zip, "miner/map.json", new File("miner/map.json"), new JsonArray()))
+			isAnyFail = true;
+		if(!writeToFile(zip, "miner/shop.json", new File("miner/shop.json"), new JsonObject()))
+			isAnyFail = true;
+		if(!isAnyFail) {
+			Log.i("import", "import successful");
+			Background.throwMsg("導入", "導入成功，檔案位置: " + minerFile.getAbsolutePath());
+		}
+		return !isAnyFail;
+	}
+	
+	private boolean writeToFile(ZipFile zip, String entryName, File in, JsonElement je) throws IOException {
+		Log.d("import", entryName);
+		InputStream is = zip.getInputStream(new ZipEntry(entryName));
+		BufferedWriter bw = Files.newBufferedWriter(in.toPath());
+		int c = is.read();
+		while(c != -1) {
+			bw.write(c);
+			c = is.read();
+		}
+		is.close();
+		bw.close();
+		Log.d("import", "check file done...");
+		if(checkImportSuccess(in, je)) {
+			Log.i("import", "import fail");
+			Background.throwMsg("導入", "導入失敗，檔案位置: " + entryName);
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean checkImportSuccess(File in, JsonElement je) throws IOException {
+		if(je instanceof JsonArray) return new JsonStreamParser(Files.newBufferedReader(in.toPath())).next().isJsonArray();
+		if(je instanceof JsonObject) return new JsonStreamParser(Files.newBufferedReader(in.toPath())).next().isJsonObject();
 		return false;
 	}
 	
