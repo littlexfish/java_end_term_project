@@ -242,15 +242,27 @@ public class PeopleMining extends JDialog {
 	}
 	private void countDown(JButton needLock, int time, Direct d, People.PeopleData people, People.PickaxeData pickaxe, People.BagData bag) {
 		needLock.setEnabled(false);
-		new Thread(() -> {
-			long ft = System.currentTimeMillis();
-			while((System.currentTimeMillis() - ft) < time) {
-				needLock.setText(String.format("挖(%.2f)", (time - (System.currentTimeMillis() - ft)) / 1000f));
+		Timer tr = new Timer(1, null);
+		long ft = System.currentTimeMillis();
+		tr.addActionListener(e -> {
+			needLock.setText(String.format("挖(%.2f)", (time - (System.currentTimeMillis() - ft)) / 1000f));
+			if((System.currentTimeMillis() - ft) >= time) {
+				doMine(d, people, pickaxe, bag);
+				needLock.setEnabled(true);
+				needLock.setText("挖");
+				tr.stop();
 			}
-			doMine(d, people, pickaxe, bag);
-			needLock.setEnabled(true);
-			needLock.setText("挖");
-		}).start();
+		});
+		tr.start();
+//		new Thread(() -> {
+//			long ft = System.currentTimeMillis();
+//			while((System.currentTimeMillis() - ft) < time) {
+//				needLock.setText(String.format("挖(%.2f)", (time - (System.currentTimeMillis() - ft)) / 1000f));
+//			}
+//			doMine(d, people, pickaxe, bag);
+//			needLock.setEnabled(true);
+//			needLock.setText("挖");
+//		}, "timer thread").start();
 	}
 	
 }

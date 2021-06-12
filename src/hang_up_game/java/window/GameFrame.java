@@ -1,6 +1,7 @@
 package hang_up_game.java.window;
 
 import hang_up_game.java.game.Background;
+import hang_up_game.java.game.MiningMap;
 import hang_up_game.java.io.data.FileHolder;
 import hang_up_game.java.window.menu_bar.Manual;
 import hang_up_game.java.window.menu_bar.Version;
@@ -110,7 +111,7 @@ public class GameFrame extends JFrame {
 		
 		Log.d("gameFrame", "make sure background");
 		Background.makeSureBackground(this);
-		
+		MiningMap.init();
 	}
 	
 	public void openWindow() {

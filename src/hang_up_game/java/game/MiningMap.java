@@ -56,7 +56,7 @@ public class MiningMap {
 		int multi = chunk.X * chunk.Y;
 		int tmpC = multi * 10 % maxChestCount;
 		if(tmpC == 0) {
-			tmpC = (int)(chestSeed  % maxChestCount);
+			tmpC = (int)(chestSeed  % maxChestCount) + 1;
 		}
 		return (int)(chestSeed % tmpC);
 	}
@@ -66,6 +66,6 @@ public class MiningMap {
 	public static Set<Item> findItem(int chunkX, int chunkY, int blockInChunkX, int blockInChunkY) {
 		return findItem(new Chunk(chunkX, chunkY), blockInChunkX, blockInChunkY);
 	}
-	
+	public static void init() {}
 	
 }
